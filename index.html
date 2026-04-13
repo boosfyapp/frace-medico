@@ -906,6 +906,279 @@
 </section>
 
 <!-- ════════════════════════════════
+     WHATSAPP DEMO
+════════════════════════════════ -->
+<section id="demo-wa" style="background:var(--bg); padding:100px 0;">
+  <div class="container">
+
+    <div class="reveal" style="text-align:center; margin-bottom:56px;">
+      <span class="section-label">En acción</span>
+      <h2 class="display">Así responde tu agente</h2>
+      <p class="lead" style="max-width:500px; margin:0 auto;">Esto es exactamente lo que ven tus pacientes cuando escriben a tu WhatsApp — a cualquier hora, en segundos.</p>
+    </div>
+
+    <!-- Phone mockup -->
+    <div style="display:flex; justify-content:center;">
+      <div style="width:100%; max-width:380px;">
+
+        <!-- Phone shell -->
+        <div style="
+          background:#111B21;
+          border-radius:32px;
+          box-shadow: 0 0 0 8px #1A2433, 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(34,211,238,0.06);
+          overflow:hidden;
+          font-family:'Figtree',sans-serif;
+        ">
+
+          <!-- WA Header -->
+          <div style="
+            background:#1F2C34;
+            padding:14px 16px 12px;
+            display:flex; align-items:center; gap:12px;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+          ">
+            <!-- Back arrow -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg>
+            <!-- Avatar -->
+            <div style="
+              width:38px; height:38px; border-radius:50%; flex-shrink:0;
+              background:linear-gradient(135deg,#0891B2,#22D3EE);
+              display:flex; align-items:center; justify-content:center;
+              font-weight:700; font-size:0.9rem; color:white;
+            ">IA</div>
+            <!-- Name + status -->
+            <div style="flex:1; min-width:0;">
+              <p style="font-size:0.9rem; font-weight:600; color:#E9EDF0; margin:0;">Tu Negocio</p>
+              <p id="wa-status" style="font-size:0.72rem; color:#8696A0; margin:0; transition:opacity 0.3s;">en línea</p>
+            </div>
+            <!-- Icons -->
+            <div style="display:flex; gap:18px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.18a2 2 0 012-1.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </div>
+          </div>
+
+          <!-- Chat area -->
+          <div id="wa-chat" style="
+            background:#0B141A;
+            min-height:440px;
+            padding:16px 12px 12px;
+            display:flex; flex-direction:column; gap:6px;
+            overflow:hidden;
+            position:relative;
+          ">
+            <!-- Watermark pattern subtle -->
+            <div style="
+              position:absolute; inset:0; opacity:0.03;
+              background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><text y=%2240%22 font-size=%2236%22>💬</text></svg>');
+              pointer-events:none;
+            "></div>
+
+            <!-- Day label -->
+            <div style="text-align:center; margin:4px 0 10px;">
+              <span style="background:#1F2C34; color:#8696A0; font-size:0.7rem; padding:4px 10px; border-radius:8px;">Hoy</span>
+            </div>
+
+            <!-- Messages injected by JS -->
+          </div>
+
+          <!-- Typing indicator area -->
+          <div id="wa-typing-bar" style="
+            background:#1F2C34;
+            padding:10px 14px;
+            display:flex; align-items:center; gap:10px;
+            border-top:1px solid rgba(255,255,255,0.04);
+          ">
+            <div style="flex:1; background:#2A3942; border-radius:20px; padding:10px 14px;">
+              <span id="wa-input-text" style="font-size:0.85rem; color:#8696A0;"></span>
+              <span id="wa-cursor" style="display:inline-block; width:2px; height:14px; background:#8696A0; margin-left:1px; vertical-align:middle; animation:blink 1s step-end infinite;"></span>
+            </div>
+            <div style="width:36px; height:36px; border-radius:50%; background:#00A884; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caption -->
+        <p style="text-align:center; font-size:0.78rem; color:var(--tx-3); margin-top:20px;">
+          Conversación real · respuesta en menos de 3 segundos
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes bubbleIn {
+    from { opacity:0; transform:translateY(8px) scale(0.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .wa-bubble {
+    max-width:80%;
+    padding:8px 12px 6px;
+    border-radius:8px;
+    font-size:0.82rem;
+    line-height:1.5;
+    animation: bubbleIn 0.25s ease forwards;
+    word-break:break-word;
+    position:relative;
+  }
+  .wa-bubble.patient {
+    background:#005C4B;
+    color:#E9EDF0;
+    align-self:flex-end;
+    border-bottom-right-radius:2px;
+  }
+  .wa-bubble.agent {
+    background:#1F2C34;
+    color:#E9EDF0;
+    align-self:flex-start;
+    border-bottom-left-radius:2px;
+  }
+  .wa-bubble .wa-time {
+    font-size:0.62rem;
+    color:rgba(233,237,240,0.45);
+    float:right;
+    margin-left:10px;
+    margin-top:2px;
+  }
+  .wa-bubble.patient .wa-time::after {
+    content:'✓✓';
+    color:#53BDEB;
+    margin-left:3px;
+  }
+  .wa-typing-dots {
+    background:#1F2C34;
+    border-radius:8px; border-bottom-left-radius:2px;
+    padding:10px 14px;
+    align-self:flex-start;
+    display:flex; gap:4px; align-items:center;
+    animation: bubbleIn 0.2s ease forwards;
+  }
+  .wa-typing-dots span {
+    width:7px; height:7px; border-radius:50%;
+    background:#8696A0;
+    animation: dotBounce 1.2s ease-in-out infinite;
+  }
+  .wa-typing-dots span:nth-child(2) { animation-delay:0.2s; }
+  .wa-typing-dots span:nth-child(3) { animation-delay:0.4s; }
+  @keyframes dotBounce {
+    0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)}
+  }
+</style>
+
+<script>
+(function() {
+  var chat = document.getElementById('wa-chat');
+  var status = document.getElementById('wa-status');
+  var inputText = document.getElementById('wa-input-text');
+
+  function getTime() {
+    var d = new Date();
+    return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+
+  var MESSAGES = [
+    { from:'patient', text:'Hola! Quisiera agendar una cita con el doctor, ¿tienen disponibilidad esta semana?' },
+    { from:'agent',   text:'¡Hola! 👋 Claro, con gusto te ayudo. Tenemos los siguientes horarios disponibles:\n\n📅 Martes 15 — 10:00am o 4:00pm\n📅 Miércoles 16 — 11:30am\n📅 Jueves 17 — 9:00am o 5:00pm\n\n¿Cuál te viene mejor?' },
+    { from:'patient', text:'El miércoles a las 11:30 estaría perfecto 👍' },
+    { from:'agent',   text:'¡Perfecto! Tu cita queda confirmada ✅\n\n👤 Paciente: Tu nombre\n📅 Miércoles 16 de abril\n🕐 11:30am\n👨‍⚕️ Dr. García\n\nTe enviamos la ubicación del consultorio 👇' },
+    { from:'agent',   text:'📍 <a href="https://maps.google.com" target="_blank" style="color:#53BDEB;">Ver en Google Maps →\nConsultorio Médico · Av. Insurgentes Sur 1234, CDMX</a>\n\nTe recordaremos un día antes de tu cita. ¡Hasta el miércoles! 😊' },
+  ];
+
+  var typingDots = null;
+  var step = 0;
+  var loopTimeout = null;
+
+  function showTyping() {
+    typingDots = document.createElement('div');
+    typingDots.className = 'wa-typing-dots';
+    typingDots.innerHTML = '<span></span><span></span><span></span>';
+    chat.appendChild(typingDots);
+    chat.scrollTop = chat.scrollHeight;
+    status.textContent = 'escribiendo…';
+  }
+
+  function hideTyping() {
+    if (typingDots && typingDots.parentNode) typingDots.parentNode.removeChild(typingDots);
+    typingDots = null;
+    status.textContent = 'en línea';
+  }
+
+  function addBubble(msg) {
+    hideTyping();
+    var div = document.createElement('div');
+    div.className = 'wa-bubble ' + msg.from;
+    var lines = msg.text.replace(/\n/g,'<br>');
+    div.innerHTML = lines + '<span class="wa-time">' + getTime() + '</span>';
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function typeInInput(text, cb) {
+    var i = 0;
+    inputText.textContent = '';
+    var iv = setInterval(function() {
+      if (i < text.length) {
+        inputText.textContent += text[i++];
+      } else {
+        clearInterval(iv);
+        setTimeout(function() { inputText.textContent = ''; cb(); }, 200);
+      }
+    }, 38);
+  }
+
+  function clearChat() {
+    // Remove all bubbles (keep day label)
+    var nodes = chat.querySelectorAll('.wa-bubble, .wa-typing-dots');
+    nodes.forEach(function(n){ n.parentNode.removeChild(n); });
+    step = 0;
+  }
+
+  function runStep() {
+    if (step >= MESSAGES.length) {
+      // Pause then restart
+      loopTimeout = setTimeout(function() {
+        clearChat();
+        loopTimeout = setTimeout(runStep, 800);
+      }, 4000);
+      return;
+    }
+
+    var msg = MESSAGES[step];
+    step++;
+
+    if (msg.from === 'patient') {
+      // Type in input bar, then send
+      typeInInput(msg.text.substring(0, Math.min(msg.text.length, 32)), function() {
+        addBubble(msg);
+        loopTimeout = setTimeout(runStep, 900);
+      });
+    } else {
+      // Show typing dots, then agent bubble
+      showTyping();
+      var delay = 1200 + msg.text.length * 12;
+      loopTimeout = setTimeout(function() {
+        addBubble(msg);
+        loopTimeout = setTimeout(runStep, 1000);
+      }, Math.min(delay, 2800));
+    }
+  }
+
+  // Start when section enters viewport
+  var started = false;
+  var demoObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !started) {
+      started = true;
+      setTimeout(runStep, 600);
+    }
+  }, { threshold: 0.3 });
+  demoObs.observe(document.getElementById('demo-wa'));
+})();
+</script>
+
+<!-- ════════════════════════════════
      FEATURES
 ════════════════════════════════ -->
 <section id="soluciones">
