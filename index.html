@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frace Solutions — Asistente IA para Consultorios y Clínicas</title>
+  <meta name="description" content="Automatiza la atención de pacientes en WhatsApp, reduce no-shows hasta 60% y agenda citas en automático. Para consultorios, clínicas dentales y medicina estética." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"DM Serif Display"', 'serif'],
+            body: ['Figtree', 'sans-serif'],
+          },
+          colors: {
+            primary: '#0C6E8C',
+            'primary-lt': '#E0F4F9',
+            accent: '#06B6D4',
+            cta: '#10B981',
+            'cta-dark': '#059669',
+            navy: '#071828',
+            'text-body': '#374151',
+            'text-muted': '#6B7280',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-base: #F8FAFB;
+      --bg-surface: #FFFFFF;
+      --bg-dark: #071828;
+      --primary: #0C6E8C;
+      --primary-lt: #E0F4F9;
+      --accent: #06B6D4;
+      --cta: #10B981;
+      --cta-hover: #059669;
+      --text-heading: #071828;
+      --text-body: #374151;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --shadow-sm: 0 1px 3px rgba(7,24,40,0.08);
+      --shadow-md: 0 4px 16px rgba(7,24,40,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: auto; } /* Lenis handles this */
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display { font-family: 'DM Serif Display', serif; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Noise texture overlay */
+    .noise::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.04;
+    }
+
+    /* Navbar */
+    #navbar {
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* CTA Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cta);
+      color: white;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: var(--cta-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: white;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--primary);
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 13px 28px;
+      border-radius: 10px;
+      border: 1.5px solid var(--primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Stat cards in hero */
+    .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 20px 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Feature cards */
+    .feature-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--primary-lt);
+    }
+
+    /* Specialty cards */
+    .specialty-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .specialty-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(6,182,212,0.08), var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    /* Pain items */
+    .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 3px solid #EF4444;
+      border-radius: 12px;
+    }
+
+    /* CON vs SIN section */
+    #comparison {
+      position: relative;
+    }
+    .compare-panel {
+      position: sticky;
+      top: 80px;
+    }
+    .sin-side {
+      background: #FFF7F5;
+      border: 1px solid #FED7AA;
+    }
+    .con-side {
+      background: #F0FDF4;
+      border: 1px solid #A7F3D0;
+    }
+
+    /* Timeline */
+    .step-line {
+      position: absolute;
+      left: 23px;
+      top: 56px;
+      bottom: -24px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--primary-lt));
+    }
+
+    /* Testimonial */
+    .testimonial-quote {
+      position: relative;
+    }
+    .testimonial-quote::before {
+      content: '"';
+      font-family: 'DM Serif Display', serif;
+      font-size: 120px;
+      color: var(--accent);
+      opacity: 0.15;
+      position: absolute;
+      top: -40px;
+      left: -20px;
+      line-height: 1;
+    }
+
+    /* ROI Calculator */
+    .roi-input {
+      width: 100%;
+      background: var(--bg-base);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'Figtree', sans-serif;
+      font-size: 1rem;
+      color: var(--text-heading);
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+    .roi-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(6,182,212,0.1);
+    }
+
+    /* Pricing cards */
+    .pricing-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      position: relative;
+    }
+    .pricing-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .pricing-card.featured {
+      background: var(--bg-dark);
+      border-color: var(--accent);
+      color: white;
+    }
+    .pricing-card.featured .text-muted-custom { color: rgba(255,255,255,0.6); }
+
+    /* FAQ */
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item[open] summary .faq-icon { transform: rotate(45deg); }
+    .faq-icon { transition: transform 0.2s ease; }
+
+    /* Gradient mesh backgrounds */
+    .mesh-bg {
+      position: relative;
+      overflow: hidden;
+    }
+    .mesh-bg::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    /* Counter animation */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    /* Section divider */
+    .diagonal-divider {
+      height: 60px;
+      background: var(--bg-dark);
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%);
+    }
+
+    /* WhatsApp floating button */
+    #wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      width: 56px;
+      height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+    #wa-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .btn-primary, .btn-secondary { padding: 13px 20px; font-size: 0.9rem; }
+      .testimonial-quote::before { font-size: 80px; top: -30px; left: -10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================
+     FLOATING WHATSAPP
+============================= -->
+<a id="wa-float" href="https://wa.me/message/DGPEYQD3I7OHB1" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ============================
+     NAVBAR
+============================= -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2 text-white" aria-label="Frace Solutions">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--accent);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      </div>
+      <span class="font-body font-700 text-lg tracking-tight" style="color:white; font-weight:700;">Frace <span style="color: var(--accent);">Médico</span></span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#soluciones" class="text-white/70 hover:text-white transition-colors text-sm font-medium">Soluciones</a>
+      <a href="#especialidades" class="text-white/70 hover:text-white transition-colors text-sm font-medium">Especialidades</a>
+      <a href="#precios" class="text-white/70 hover:text-white transition-colors text-sm font-medium">Precios</a>
+      <a href="#faq" class="text-white/70 hover:text-white transition-colors text-sm font-medium">FAQ</a>
+    </div>
+
+    <!-- CTA -->
+    <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener"
+       class="hidden md:inline-flex btn-primary text-sm" style="padding: 10px 20px;">
+      <i data-lucide="calendar" class="w-4 h-4"></i>
+      Agendar demo
+    </a>
+
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-btn" class="md:hidden text-white p-2" aria-label="Abrir menú">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-4" style="background: var(--bg-dark);">
+    <div class="flex flex-col gap-4 pt-2 border-t border-white/10">
+      <a href="#soluciones" class="text-white/80 hover:text-white py-2">Soluciones</a>
+      <a href="#especialidades" class="text-white/80 hover:text-white py-2">Especialidades</a>
+      <a href="#precios" class="text-white/80 hover:text-white py-2">Precios</a>
+      <a href="#faq" class="text-white/80 hover:text-white py-2">FAQ</a>
+      <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary text-center justify-center">
+        <i data-lucide="calendar" class="w-4 h-4"></i> Agendar demo gratis
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================
+     HERO
+============================= -->
+<section id="hero" class="relative min-h-screen flex items-center noise" style="background: var(--bg-dark); padding: 140px 0 100px;">
+  <!-- Gradient orb -->
+  <div style="position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%); top:-100px; right:-150px; pointer-events:none;"></div>
+  <div style="position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, rgba(12,110,140,0.15) 0%, transparent 70%); bottom:0; left:-100px; pointer-events:none;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left: Copy -->
+      <div>
+        <!-- Badge -->
+        <div id="hero-badge" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8" style="background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.3); color: var(--accent);">
+          <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;"></span>
+          Asistente IA para el sector salud
+        </div>
+
+        <!-- Headline -->
+        <h1 id="hero-headline" class="font-display text-white leading-tight mb-6" style="font-size: clamp(2.4rem, 5vw, 3.6rem); line-height:1.12;">
+          Tu consultorio<br />
+          <em style="color: var(--accent);">nunca duerme.</em><br />
+          Tu recepcionista sí.
+        </h1>
+
+        <!-- Subheadline -->
+        <p id="hero-sub" class="text-lg mb-10 leading-relaxed" style="color:rgba(255,255,255,0.65); max-width: 480px;">
+          Automatiza la atención de pacientes en WhatsApp, reduce no-shows hasta 60% y agenda citas en automático — sin cambiar tu número ni contratar más personal.
+        </p>
+
+        <!-- CTAs -->
+        <div id="hero-ctas" class="flex flex-wrap gap-4 mb-12">
+          <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            Agendar demo gratuita
+          </a>
+          <a href="https://wa.me/message/DGPEYQD3I7OHB1" target="_blank" rel="noopener" class="btn-secondary">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            Tengo una pregunta
+          </a>
+        </div>
+
+        <!-- Trust micro-copy -->
+        <p class="text-sm flex items-center gap-2" style="color:rgba(255,255,255,0.4);">
+          <i data-lucide="shield-check" class="w-4 h-4" style="color: var(--cta);"></i>
+          Listo en menos de 24h · Compatible con WhatsApp Business · Sin contrato forzoso
+        </p>
+      </div>
+
+      <!-- Right: Stats -->
+      <div id="hero-stats" class="grid grid-cols-2 gap-4">
+        <div class="stat-card col-span-2">
+          <div class="text-4xl font-display text-white mb-1">
+            <span class="counter" data-target="60">0</span>%
+          </div>
+          <div class="font-semibold mb-1" style="color:var(--accent);">Reducción de no-shows</div>
+          <div class="text-sm" style="color:rgba(255,255,255,0.5);">Recordatorios automáticos antes de cada cita</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="text-3xl font-display text-white mb-1">
+            <span class="counter" data-target="3">0</span>s
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:var(--accent);">Tiempo de respuesta</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">24/7, sin pausas</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="text-3xl font-display text-white mb-1">
+            +<span class="counter" data-target="500">0</span>
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:var(--accent);">Clientes activos</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">Consultorios y clínicas</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="text-3xl font-display text-white mb-1">
+            <span class="counter" data-target="83">0</span>%
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:var(--accent);">Ahorro en personal</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">Menos carga para tu equipo</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="text-3xl font-display text-white mb-1">
+            24h
+          </div>
+          <div class="font-semibold text-sm mb-1" style="color:var(--accent);">Para estar activo</div>
+          <div class="text-xs" style="color:rgba(255,255,255,0.5);">Sin conocimientos técnicos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagonal bottom -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:var(--bg-base);clip-path:polygon(0 100%,100% 0,100% 100%);"></div>
+</section>
+
+<!-- ============================
+     DOLOR (Problem)
+============================= -->
+<section id="dolor" class="py-24" style="background: var(--bg-base);">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">El problema real</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">¿Te suena familiar?</h2>
+      <p class="text-lg max-w-2xl mx-auto" style="color: var(--text-muted);">
+        Cada mensaje sin responder es un paciente que se fue con tu competencia.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+      <!-- Pain 1 -->
+      <div class="pain-item reveal reveal-delay-1">
+        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#FEE2E2;">
+          <i data-lucide="phone-missed" class="w-5 h-5" style="color:#EF4444;"></i>
+        </div>
+        <div>
+          <p class="font-semibold mb-1" style="color:var(--text-heading);">Pierdes pacientes en consulta</p>
+          <p class="text-sm" style="color:var(--text-muted);">Cuando estás con un paciente no puedes contestar WhatsApp. Ese mensaje que no respondiste se fue a otra clínica.</p>
+        </div>
+      </div>
+
+      <!-- Pain 2 -->
+      <div class="pain-item reveal reveal-delay-2">
+        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#FEE2E2;">
+          <i data-lucide="calendar-x" class="w-5 h-5" style="color:#EF4444;"></i>
+        </div>
+        <div>
+          <p class="font-semibold mb-1" style="color:var(--text-heading);">Alto índice de no-shows</p>
+          <p class="text-sm" style="color:var(--text-muted);">Sin recordatorios automáticos, los pacientes olvidan sus citas y tú pierdes el tiempo y el ingreso de ese slot.</p>
+        </div>
+      </div>
+
+      <!-- Pain 3 -->
+      <div class="pain-item reveal reveal-delay-3">
+        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#FEE2E2;">
+          <i data-lucide="user-x" class="w-5 h-5" style="color:#EF4444;"></i>
+        </div>
+        <div>
+          <p class="font-semibold mb-1" style="color:var(--text-heading);">Dependencia de la recepcionista</p>
+          <p class="text-sm" style="color:var(--text-muted);">Si ella falta o renuncia, tu consultorio se paraliza. El 100% del flujo de pacientes pasa por una sola persona.</p>
+        </div>
+      </div>
+
+      <!-- Pain 4 -->
+      <div class="pain-item reveal reveal-delay-4">
+        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#FEE2E2;">
+          <i data-lucide="clock" class="w-5 h-5" style="color:#EF4444;"></i>
+        </div>
+        <div>
+          <p class="font-semibold mb-1" style="color:var(--text-heading);">Pacientes que esperan horas</p>
+          <p class="text-sm" style="color:var(--text-muted);">Hoy los pacientes esperan respuesta inmediata. Si tardas más de 5 minutos en responder, ya perdiste su atención.</p>
+        </div>
+      </div>
+
+      <!-- Pain 5 -->
+      <div class="pain-item reveal reveal-delay-5">
+        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#FEE2E2;">
+          <i data-lucide="repeat" class="w-5 h-5" style="color:#EF4444;"></i>
+        </div>
+        <div>
+          <p class="font-semibold mb-1" style="color:var(--text-heading);">Pacientes que no regresan</p>
+          <p class="text-sm" style="color:var(--text-muted);">Sin seguimiento automatizado, los pacientes que dejaron de asistir simplemente desaparecen — y nadie los reactiva.</p>
+        </div>
+      </div>
+
+      <!-- CTA box -->
+      <div class="reveal reveal-delay-5 flex flex-col justify-center items-center text-center p-6 rounded-xl" style="background:var(--primary-lt); border: 1px solid rgba(12,110,140,0.2);">
+        <p class="font-display text-2xl mb-2" style="color:var(--primary);">Existe una solución.</p>
+        <p class="text-sm mb-4" style="color:var(--text-muted);">Y puede estar activa en tu consultorio en menos de 24 horas.</p>
+        <a href="#soluciones" class="btn-outline text-sm" style="padding:10px 20px;">Ver cómo funciona</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     ESPECIALIDADES
+============================= -->
+<section id="especialidades" class="py-20" style="background: white;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Diseñado para tu práctica</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">Servimos a tu especialidad</h2>
+      <p class="text-lg max-w-xl mx-auto" style="color: var(--text-muted);">
+        El asistente aprende el lenguaje y flujo específico de tu tipo de práctica médica.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <!-- Especialidades -->
+      <div class="specialty-card reveal reveal-delay-1">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="stethoscope" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Consultorios de Especialidad</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Ginecología, Pediatría, Cardiología…</p>
+      </div>
+
+      <div class="specialty-card reveal reveal-delay-2">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="smile" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Clínicas Dentales</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Ortodoncia, implantes, blanqueamiento</p>
+      </div>
+
+      <div class="specialty-card reveal reveal-delay-3">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="sparkles" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Medicina Estética</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Botox, rellenos, tratamientos faciales</p>
+      </div>
+
+      <div class="specialty-card reveal reveal-delay-4">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="leaf" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Medicina Alternativa</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Acupuntura, naturopatía, homeopatía</p>
+      </div>
+
+      <div class="specialty-card reveal reveal-delay-5">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="microscope" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Laboratorios Clínicos</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Estudios, resultados, preparación</p>
+      </div>
+
+      <div class="specialty-card reveal reveal-delay-5">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--primary-lt);">
+          <i data-lucide="activity" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <p class="font-semibold text-sm" style="color:var(--text-heading);">Rehabilitación</p>
+        <p class="text-xs mt-1" style="color:var(--text-muted);">Fisioterapia, terapia ocupacional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     CON vs SIN (Comparison)
+============================= -->
+<section id="comparison" class="py-24 mesh-bg" style="background:var(--bg-base);">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Antes y después</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">Un día en tu consultorio</h2>
+      <p class="text-lg max-w-xl mx-auto" style="color: var(--text-muted);">La diferencia entre operar con y sin Frace.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <!-- SIN -->
+      <div class="sin-side rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:#FEE2E2;">
+            <i data-lucide="x" class="w-4 h-4" style="color:#EF4444;"></i>
+          </div>
+          <h3 class="font-display text-xl" style="color:#7F1D1D;">Sin Frace</h3>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3 reveal reveal-delay-1">
+            <i data-lucide="minus-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:#EF4444;"></i>
+            <span class="text-sm" style="color:#78350F;">7am: Tu recepcionista llega y encuentra 23 mensajes sin contestar de la noche anterior. Algunos son de pacientes que ya no esperaron.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-2">
+            <i data-lucide="minus-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:#EF4444;"></i>
+            <span class="text-sm" style="color:#78350F;">11am: Tienes 4 pacientes esperando, el teléfono suena, y WhatsApp sin responder. Ella no puede con todo.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-3">
+            <i data-lucide="minus-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:#EF4444;"></i>
+            <span class="text-sm" style="color:#78350F;">2pm: 3 citas de hoy no llegaron. Nadie les mandó recordatorio. Perdiste 3 consultas = ~$3,000 MXN.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-4">
+            <i data-lucide="minus-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:#EF4444;"></i>
+            <span class="text-sm" style="color:#78350F;">6pm: Tu recepcionista se fue. Llegan mensajes de pacientes que quieren agendar para mañana. No hay quien responda.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CON -->
+      <div class="con-side rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:#D1FAE5;">
+            <i data-lucide="check" class="w-4 h-4" style="color:#059669;"></i>
+          </div>
+          <h3 class="font-display text-xl" style="color:#064E3B;">Con Frace</h3>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3 reveal reveal-delay-1">
+            <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:var(--cta);"></i>
+            <span class="text-sm" style="color:#065F46;">7am: El asistente respondió los 23 mensajes nocturnos en segundos, agendó 8 citas nuevas en tu Google Calendar y mandó confirmaciones automáticas.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-2">
+            <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:var(--cta);"></i>
+            <span class="text-sm" style="color:#065F46;">11am: Tu recepcionista atiende a los pacientes presenciales con calma. WhatsApp va en automático. 0 mensajes sin contestar.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-3">
+            <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:var(--cta);"></i>
+            <span class="text-sm" style="color:#065F46;">2pm: Todos llegaron. La noche anterior el asistente envió recordatorios automáticos con instrucciones de su cita. Agenda completa.</span>
+          </li>
+          <li class="flex items-start gap-3 reveal reveal-delay-4">
+            <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:var(--cta);"></i>
+            <span class="text-sm" style="color:#065F46;">10pm: Llegan 5 consultas nuevas. El asistente responde, califica, agenda y confirma — mientras tú ya estás descansando.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CTA debajo -->
+    <div class="text-center mt-12 reveal">
+      <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary" style="font-size:1rem; padding: 16px 36px;">
+        <i data-lucide="calendar" class="w-5 h-5"></i>
+        Quiero esto para mi consultorio
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FEATURES (Soluciones)
+============================= -->
+<section id="soluciones" class="py-24" style="background: white;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Lo que incluye</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">Todo lo que necesita tu consultorio</h2>
+      <p class="text-lg max-w-2xl mx-auto" style="color: var(--text-muted);">Un ecosistema completo de atención al paciente, automatizado y siempre activo.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="message-square" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">Atención en WhatsApp 24/7</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">El asistente responde en segundos a cualquier hora. Conoce tu consultorio, tus horarios, tu ubicación y tus precios. Compatible con tu WhatsApp Business actual.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="calendar-check" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">Agendado Automático</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">Se integra con Google Calendar o Calendly. Los pacientes agendan solos — el asistente confirma disponibilidad, registra la cita y envía confirmación.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="bell-ring" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">Recordatorios Anti No-Shows</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">Envía recordatorios automáticos 24h y 2h antes de cada cita. Incluye instrucciones específicas: preparación para estudios, ayuno, documentos a traer.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="brain" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">Lenguaje Médico Especializado</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">El asistente aprende la terminología de tu especialidad. Puede responder sobre preparación de estudios, indicaciones pre/post operatorias y protocolos de tu clínica.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-5">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="layout-kanban" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">CRM Visual de Pacientes</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">Panel Kanban para ver en qué etapa está cada paciente: nuevo contacto, cita agendada, en seguimiento, paciente recurrente. Todo tu pipeline en una vista.</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-5">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:var(--primary-lt);">
+          <i data-lucide="refresh-cw" class="w-6 h-6" style="color:var(--primary);"></i>
+        </div>
+        <h3 class="font-semibold text-lg mb-2" style="color:var(--text-heading);">Reactivación de Pacientes</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">Detecta pacientes que dejaron de asistir y los contacta automáticamente con mensajes personalizados. Recupera revenue que ya dabas por perdido.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PROCESO (4 pasos)
+============================= -->
+<section class="py-24" style="background:var(--bg-base);">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Así de simple</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">Activo en 4 pasos</h2>
+      <p class="text-lg" style="color: var(--text-muted);">Sin conocimientos técnicos. Sin cambiar tu número. Sin complicaciones.</p>
+    </div>
+
+    <div class="space-y-8">
+
+      <div class="flex gap-6 reveal reveal-delay-1">
+        <div class="relative flex-shrink-0">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl text-white" style="background:var(--primary);">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pb-8">
+          <h3 class="font-semibold text-xl mb-2" style="color:var(--text-heading);">Agenda tu demo de 15 min</h3>
+          <p style="color:var(--text-muted);">Agendas una videollamada gratuita. Te mostramos en vivo cómo funciona el asistente con ejemplos de tu especialidad médica.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-6 reveal reveal-delay-2">
+        <div class="relative flex-shrink-0">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl text-white" style="background:var(--primary);">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pb-8">
+          <h3 class="font-semibold text-xl mb-2" style="color:var(--text-heading);">Nos compartes la info de tu consultorio</h3>
+          <p style="color:var(--text-muted);">Horarios, servicios, precios, ubicación, protocolos especiales. Nuestro equipo entrena al asistente con el conocimiento de tu práctica.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-6 reveal reveal-delay-3">
+        <div class="relative flex-shrink-0">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl text-white" style="background:var(--primary);">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pb-8">
+          <h3 class="font-semibold text-xl mb-2" style="color:var(--text-heading);">Conectamos tu WhatsApp Business</h3>
+          <p style="color:var(--text-muted);">Escaneas un QR desde tu WhatsApp Business actual. No cambias tu número ni pierdes tu historial. El asistente queda activo en minutos.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-6 reveal reveal-delay-4">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl text-white" style="background:var(--cta);">4</div>
+        </div>
+        <div>
+          <h3 class="font-semibold text-xl mb-2" style="color:var(--text-heading);">Tu consultorio opera en automático</h3>
+          <p style="color:var(--text-muted);">A partir de ese momento, el asistente responde, agenda, recuerda y reactiva — las 24 horas, los 7 días, sin que tú tengas que hacer nada.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     TESTIMONIO
+============================= -->
+<section class="py-24 relative overflow-hidden" style="background:var(--bg-dark);">
+  <div style="position:absolute;top:0;right:0;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);pointer-events:none;"></div>
+
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="testimonial-quote reveal">
+      <p class="font-display text-white leading-relaxed mb-8" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+        "El asistente hace el trabajo por nosotros. Automatizamos la gestión de citas totalmente — ya no dependemos de que alguien esté disponible para responder."
+      </p>
+    </div>
+
+    <div class="flex items-center justify-center gap-4 reveal reveal-delay-2">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center font-display text-xl text-white" style="background:var(--primary);">C</div>
+      <div class="text-left">
+        <p class="font-semibold text-white">Ceci Montaño</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.5);">Directora Comercial, Centro Médico de Occidente</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-16" style="border-top:1px solid rgba(255,255,255,0.08);">
+      <div class="reveal reveal-delay-1">
+        <p class="font-display text-3xl text-white mb-1">+400%</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.5);">Mejora en tiempos de respuesta</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="font-display text-3xl text-white mb-1">+55%</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.5);">Aumento en citas agendadas</p>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <p class="font-display text-3xl text-white mb-1">83%</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.5);">Ahorro en carga de personal</p>
+      </div>
+      <div class="reveal reveal-delay-4">
+        <p class="font-display text-3xl text-white mb-1">+500</p>
+        <p class="text-sm" style="color:rgba(255,255,255,0.5);">Consultorios y clínicas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     ROI CALCULATOR
+============================= -->
+<section class="py-24" style="background:var(--bg-base);">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Calculadora de impacto</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">¿Cuánto te cuesta NO tenerlo?</h2>
+      <p class="text-lg max-w-xl mx-auto" style="color: var(--text-muted);">Descubre en segundos cuánto revenue estás perdiendo cada mes por no-shows y mensajes sin responder.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 items-start">
+      <!-- Inputs -->
+      <div class="rounded-2xl p-8 reveal" style="background:white; border:1px solid var(--border);">
+        <h3 class="font-semibold text-lg mb-6" style="color:var(--text-heading);">Datos de tu consultorio</h3>
+
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--text-body);" for="citas-semana">Citas por semana</label>
+            <input type="number" id="citas-semana" class="roi-input" value="30" min="1" max="500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--text-body);" for="pct-noshow">Porcentaje de no-shows actual (%)</label>
+            <input type="number" id="pct-noshow" class="roi-input" value="20" min="0" max="100" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--text-body);" for="ticket-consulta">Ticket promedio por consulta (MXN)</label>
+            <input type="number" id="ticket-consulta" class="roi-input" value="800" min="100" max="50000" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color:var(--text-body);" for="sueldo-recep">Sueldo mensual recepcionista (MXN)</label>
+            <input type="number" id="sueldo-recep" class="roi-input" value="8000" min="0" max="100000" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="rounded-2xl p-8 reveal reveal-delay-2" style="background:var(--bg-dark); color:white;">
+        <h3 class="font-semibold text-lg mb-6" style="color:rgba(255,255,255,0.8);">Tu situación actual</h3>
+
+        <div class="space-y-5">
+          <div class="flex justify-between items-center py-3" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+            <span class="text-sm" style="color:rgba(255,255,255,0.6);">Citas perdidas por no-show / mes</span>
+            <span id="res-noshow" class="font-display text-2xl" style="color:#EF4444;">−$0</span>
+          </div>
+          <div class="flex justify-between items-center py-3" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+            <span class="text-sm" style="color:rgba(255,255,255,0.6);">Revenue total en riesgo / mes</span>
+            <span id="res-riesgo" class="font-display text-2xl" style="color:#F97316;">$0</span>
+          </div>
+          <div class="flex justify-between items-center py-3" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+            <span class="text-sm" style="color:rgba(255,255,255,0.6);">Costo de recepcionista / mes</span>
+            <span id="res-recep" class="font-display text-2xl" style="color:rgba(255,255,255,0.5);">$0</span>
+          </div>
+          <div class="flex justify-between items-center py-4 rounded-xl px-4" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3);">
+            <div>
+              <p class="font-semibold" style="color:var(--cta);">Ahorro potencial con Frace</p>
+              <p class="text-xs" style="color:rgba(255,255,255,0.5);">Reduciendo 60% de no-shows</p>
+            </div>
+            <span id="res-ahorro" class="font-display text-3xl" style="color:var(--cta);">$0</span>
+          </div>
+        </div>
+
+        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary w-full justify-center mt-6" style="display:flex;">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          Quiero recuperar ese dinero
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PRICING
+============================= -->
+<section id="precios" class="py-24" style="background:white;">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Inversión</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-4" style="color: var(--text-heading);">Planes para tu práctica</h2>
+      <p class="text-lg max-w-xl mx-auto" style="color: var(--text-muted);">Sin letra pequeña. Sin contratos forzosos. Empieza hoy.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Starter -->
+      <div class="pricing-card reveal reveal-delay-1">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:var(--text-muted);">Starter</p>
+        <div class="mb-1">
+          <span class="font-display text-4xl" style="color:var(--text-heading);">$4,497</span>
+          <span class="text-sm ml-1" style="color:var(--text-muted);">MXN setup</span>
+        </div>
+        <p class="text-sm mb-6" style="color:var(--text-muted);">+ $499 MXN / mes</p>
+
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            3 usuarios del CRM
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            3 canales de atención
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Asistente IA básico
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Agendado automático
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Recordatorios de cita
+          </li>
+        </ul>
+
+        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-outline w-full justify-center" style="display:flex;">
+          Empezar con Starter
+        </a>
+      </div>
+
+      <!-- PRO (Featured) -->
+      <div class="pricing-card featured reveal reveal-delay-2">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="px-4 py-1 rounded-full text-xs font-semibold" style="background:var(--accent); color:white;">Más popular</span>
+        </div>
+        <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:rgba(255,255,255,0.5);">PRO</p>
+        <div class="mb-1">
+          <span class="font-display text-4xl text-white">$7,479</span>
+          <span class="text-sm ml-1" style="color:rgba(255,255,255,0.5);">MXN setup</span>
+        </div>
+        <p class="text-sm mb-6" style="color:rgba(255,255,255,0.5);">+ $499 MXN / mes</p>
+
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            5 usuarios del CRM
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            5 canales de atención
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            Asistente IA avanzado
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            Soporte de medios (imágenes, docs)
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            Integraciones (Calendar, Calendly)
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--accent);"></i>
+            Reactivación de pacientes
+          </li>
+        </ul>
+
+        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary w-full justify-center" style="display:flex;">
+          Empezar con PRO
+        </a>
+      </div>
+
+      <!-- Ultimate -->
+      <div class="pricing-card reveal reveal-delay-3">
+        <div class="flex items-center gap-2 mb-4">
+          <p class="text-sm font-semibold uppercase tracking-widest" style="color:var(--text-muted);">Ultimate</p>
+          <span class="text-xs px-2 py-0.5 rounded-full" style="background:var(--primary-lt); color:var(--primary);">Sin mensualidad</span>
+        </div>
+        <div class="mb-1">
+          <span class="font-display text-4xl" style="color:var(--text-heading);">$14,999</span>
+          <span class="text-sm ml-1" style="color:var(--text-muted);">MXN único</span>
+        </div>
+        <p class="text-sm mb-6" style="color:var(--cta); font-weight:600;">Sin mensualidad</p>
+
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Usuarios y canales ilimitados
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Todo lo del plan PRO
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Soporte prioritario
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Onboarding personalizado
+          </li>
+          <li class="flex items-center gap-2 text-sm" style="color:var(--text-body);">
+            <i data-lucide="check" class="w-4 h-4 flex-shrink-0" style="color:var(--cta);"></i>
+            Pago único, sin sorpresas
+          </li>
+        </ul>
+
+        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary w-full justify-center" style="display:flex;">
+          Empezar con Ultimate
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Guarantee -->
+    <div class="mt-10 text-center reveal">
+      <p class="text-sm flex items-center justify-center gap-2" style="color:var(--text-muted);">
+        <i data-lucide="shield-check" class="w-4 h-4" style="color:var(--cta);"></i>
+        Sin contratos forzosos · Soporte incluido · Activo en menos de 24h
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FAQ
+============================= -->
+<section id="faq" class="py-24" style="background:var(--bg-base);">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--accent);">Preguntas frecuentes</p>
+      <h2 class="font-display text-4xl md:text-5xl" style="color: var(--text-heading);">Resolvemos tus dudas</h2>
+    </div>
+
+    <div class="space-y-3">
+
+      <details class="faq-item rounded-xl reveal reveal-delay-1" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿El asistente puede responder preguntas médicas específicas de mi especialidad?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          Sí. Durante el onboarding, entrenamos al asistente con la información de tu consultorio: protocolos, preparación para estudios, indicaciones pre/post operatorias, precios, horarios y cualquier pregunta frecuente de tus pacientes. El asistente responde con el lenguaje y la información de tu práctica específica, no de forma genérica.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-2" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿Es compatible con WhatsApp Business? ¿Pierdo mi número actual?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          Totalmente compatible. Tu número no cambia, no pierdes tu historial de conversaciones y tus pacientes siguen escribiéndote al mismo número de siempre. La conexión es por QR desde tu WhatsApp Business — el mismo proceso que usar WhatsApp Web.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-3" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿Cómo agenda citas automáticamente? ¿Se integra con mi agenda actual?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          El asistente se integra con Google Calendar y Calendly. Cuando un paciente quiere agendar, el asistente verifica disponibilidad en tiempo real, propone horarios, y registra la cita directamente en tu agenda. Tú ves todo actualizado en tiempo real.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-4" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿Qué pasa si un paciente tiene una emergencia?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          El asistente está entrenado para identificar mensajes de urgencia o emergencia y escalarlos inmediatamente a ti o a tu equipo, con una notificación prioritaria. Nunca deja solo a un paciente en situación de riesgo. Tú defines las palabras clave y el protocolo de escalamiento.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-5" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿Es segura la información de mis pacientes?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          Sí. El sistema no almacena expedientes médicos ni información sensible de salud. Solo gestiona la comunicación de atención al paciente (agendado, recordatorios, respuestas a preguntas frecuentes). La información de contacto se maneja con los mismos estándares de privacidad de WhatsApp Business.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-5" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿En cuánto tiempo está listo el asistente?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          En menos de 24 horas desde que nos das la información de tu consultorio. El proceso es: demo (15 min) → envías tu información → nosotros configuramos → tú escaneas el QR → activo. Sin instalaciones, sin servidores, sin nada técnico de tu parte.
+        </div>
+      </details>
+
+      <details class="faq-item rounded-xl reveal reveal-delay-5" style="background:white; border:1px solid var(--border); overflow:hidden;">
+        <summary class="flex items-center justify-between p-6 select-none">
+          <span class="font-semibold pr-4" style="color:var(--text-heading);">¿Necesito saber de tecnología para usarlo?</span>
+          <i data-lucide="plus" class="faq-icon w-5 h-5 flex-shrink-0" style="color:var(--primary);"></i>
+        </summary>
+        <div class="px-6 pb-6 text-sm leading-relaxed" style="color:var(--text-muted);">
+          Cero. Si sabes usar WhatsApp y Google Calendar, ya sabes todo lo que necesitas. Nuestro equipo se encarga de toda la configuración técnica. Tú solo usas la plataforma para ver conversaciones, revisar el CRM y hacer ajustes en el contenido del asistente cuando quieras.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FINAL CTA
+============================= -->
+<section class="py-24 relative overflow-hidden" style="background:var(--bg-dark);">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;border-radius:50%;background:radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 70%);pointer-events:none;"></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+    <div class="reveal">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:var(--accent);">¿Listo para empezar?</p>
+      <h2 class="font-display text-4xl md:text-6xl text-white mb-6">
+        Tu consultorio en<br /><em style="color:var(--accent);">automático</em> desde hoy.
+      </h2>
+      <p class="text-lg mb-10" style="color:rgba(255,255,255,0.6);">
+        15 minutos de demo. Sin compromiso. Activo en menos de 24 horas.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary" style="font-size:1.05rem; padding:16px 36px;">
+          <i data-lucide="calendar" class="w-5 h-5"></i>
+          Agendar demo gratuita
+        </a>
+        <a href="https://wa.me/message/DGPEYQD3I7OHB1" target="_blank" rel="noopener" class="btn-secondary" style="font-size:1.05rem; padding:16px 36px;">
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          Hablar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     FOOTER
+============================= -->
+<footer class="py-12" style="background:#040E18; border-top:1px solid rgba(255,255,255,0.06);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--accent);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          </div>
+          <span class="font-body font-bold text-white">Frace <span style="color:var(--accent);">Médico</span></span>
+        </div>
+        <p class="text-sm" style="color:rgba(255,255,255,0.4);">Asistente IA para consultorios y clínicas. Hecho por Frace Solutions.</p>
+      </div>
+
+      <div>
+        <p class="font-semibold text-sm mb-4" style="color:rgba(255,255,255,0.6);">Soluciones</p>
+        <ul class="space-y-2">
+          <li><a href="#soluciones" class="text-sm hover:text-white transition-colors" style="color:rgba(255,255,255,0.4);">Atención en WhatsApp</a></li>
+          <li><a href="#soluciones" class="text-sm hover:text-white transition-colors" style="color:rgba(255,255,255,0.4);">Agendado automático</a></li>
+          <li><a href="#soluciones" class="text-sm hover:text-white transition-colors" style="color:rgba(255,255,255,0.4);">CRM de pacientes</a></li>
+          <li><a href="#precios" class="text-sm hover:text-white transition-colors" style="color:rgba(255,255,255,0.4);">Planes y precios</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-semibold text-sm mb-4" style="color:rgba(255,255,255,0.6);">Contacto</p>
+        <div class="space-y-3">
+          <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn-primary text-sm justify-center w-full" style="display:flex; padding:10px 16px;">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            Agendar demo
+          </a>
+          <a href="https://wa.me/message/DGPEYQD3I7OHB1" target="_blank" rel="noopener" class="flex items-center gap-2 text-sm" style="color:rgba(255,255,255,0.4);">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:24px;" class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs" style="color:rgba(255,255,255,0.3);">© 2025 Frace Solutions. Todos los derechos reservados.</p>
+      <p class="text-xs" style="color:rgba(255,255,255,0.3);">
+        <a href="https://www.fracesolutions.com/" target="_blank" rel="noopener" class="hover:text-white transition-colors">fracesolutions.com</a>
+        · Aviso de privacidad
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================
+     SCRIPTS
+============================= -->
+<script>
+  // ─── Lucide Icons ───────────────────────────────────────
+  lucide.createIcons();
+
+  // ─── Lenis Smooth Scroll ────────────────────────────────
+  const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // ─── GSAP + ScrollTrigger ───────────────────────────────
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Sync Lenis with ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  // ─── Navbar scroll effect ───────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  }, { passive: true });
+
+  // ─── Mobile menu ────────────────────────────────────────
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  // Close on link click
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+  });
+
+  // ─── Hero GSAP entrance ─────────────────────────────────
+  const heroTl = gsap.timeline({ delay: 0.1 });
+  heroTl
+    .from('#hero-badge',    { opacity: 0, y: 20, duration: 0.5, ease: 'power2.out' })
+    .from('#hero-headline', { opacity: 0, y: 30, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+    .from('#hero-sub',      { opacity: 0, y: 20, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+    .from('#hero-ctas',     { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+    .from('#hero-stats .stat-card', {
+      opacity: 0, y: 24, stagger: 0.12, duration: 0.5, ease: 'power2.out'
+    }, '-=0.2');
+
+  // ─── Scroll Reveal (Intersection Observer) ───────────────
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ─── Counter Animation ──────────────────────────────────
+  function animateCounter(el, target, duration = 1500) {
+    const start = performance.now();
+    const isFloat = target % 1 !== 0;
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(eased * target);
+      el.textContent = isFloat ? value.toFixed(1) : value;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseFloat(el.dataset.target);
+        animateCounter(el, target);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+  // ─── ROI Calculator ─────────────────────────────────────
+  function calcROI() {
+    const citas = parseFloat(document.getElementById('citas-semana').value) || 0;
+    const pctNoshow = parseFloat(document.getElementById('pct-noshow').value) / 100 || 0;
+    const ticket = parseFloat(document.getElementById('ticket-consulta').value) || 0;
+    const sueldo = parseFloat(document.getElementById('sueldo-recep').value) || 0;
+
+    const citasMes = citas * 4.3;
+    const noshowMes = Math.round(citasMes * pctNoshow);
+    const perdidaNoshow = noshowMes * ticket;
+    const riesgo = citasMes * ticket;
+    const ahorro = perdidaNoshow * 0.6; // 60% reducción de no-shows
+
+    const fmt = (n) => '$' + Math.round(n).toLocaleString('es-MX');
+
+    document.getElementById('res-noshow').textContent = '−' + fmt(perdidaNoshow);
+    document.getElementById('res-riesgo').textContent = fmt(riesgo);
+    document.getElementById('res-recep').textContent = fmt(sueldo);
+    document.getElementById('res-ahorro').textContent = fmt(ahorro);
+  }
+
+  ['citas-semana','pct-noshow','ticket-consulta','sueldo-recep'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calcROI);
+  });
+  calcROI(); // init
+
+  // ─── Smooth anchor scrolling via Lenis ──────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+    });
+  });
+
+  // ─── Respect prefers-reduced-motion ─────────────────────
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    gsap.globalTimeline.timeScale(0);
+  }
+</script>
+
+</body>
+</html>
