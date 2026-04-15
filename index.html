@@ -1090,6 +1090,8 @@
   var typingDots = null;
   var step = 0;
   var loopTimeout = null;
+  var typingInterval = null;
+  var isRunning = false;
 
   function showTyping() {
     typingDots = document.createElement('div');
@@ -1106,6 +1108,15 @@
     status.textContent = 'en línea';
   }
 
+  function stopAnimation() {
+    if (loopTimeout) { clearTimeout(loopTimeout); loopTimeout = null; }
+    if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
+    hideTyping();
+    inputText.textContent = '';
+    clearChat();
+    isRunning = false;
+  }
+
   function addBubble(msg) {
     hideTyping();
     var div = document.createElement('div');
@@ -1119,12 +1130,13 @@
   function typeInInput(text, cb) {
     var i = 0;
     inputText.textContent = '';
-    var iv = setInterval(function() {
+    typingInterval = setInterval(function() {
       if (i < text.length) {
         inputText.textContent += text[i++];
       } else {
-        clearInterval(iv);
-        setTimeout(function() { inputText.textContent = ''; cb(); }, 200);
+        clearInterval(typingInterval);
+        typingInterval = null;
+        loopTimeout = setTimeout(function() { inputText.textContent = ''; cb(); }, 200);
       }
     }, 38);
   }
@@ -1137,6 +1149,7 @@
   }
 
   function runStep() {
+    isRunning = true;
     if (step >= MESSAGES.length) {
       // Pause then restart
       loopTimeout = setTimeout(function() {
@@ -1166,12 +1179,14 @@
     }
   }
 
-  // Start when section enters viewport
-  var started = false;
+  // Activate animation when section is visible, stop it when out of viewport
   var demoObs = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting && !started) {
-      started = true;
-      setTimeout(runStep, 600);
+    if (entries[0].isIntersecting) {
+      if (!isRunning) {
+        loopTimeout = setTimeout(runStep, 600);
+      }
+    } else {
+      stopAnimation();
     }
   }, { threshold: 0.3 });
   demoObs.observe(document.getElementById('demo-wa'));
