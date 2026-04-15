@@ -467,6 +467,83 @@
       box-shadow: 0 0 0 3px rgba(34,211,238,0.1);
     }
 
+    /* ── ROI Sliders ── */
+    .roi-slider-wrap { margin-bottom: 0; }
+    .roi-slider-label {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .roi-slider-name { font-size: 0.82rem; font-weight: 500; color: var(--tx-2); }
+    .roi-slider-value { font-size: 1.05rem; font-weight: 700; color: var(--cyan); }
+    input[type="range"].roi-range {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 4px; border-radius: 2px;
+      background: var(--surface-2); outline: none; cursor: pointer;
+    }
+    input[type="range"].roi-range::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--cyan); cursor: pointer;
+      box-shadow: 0 0 10px rgba(34,211,238,0.45);
+      transition: box-shadow 0.2s;
+    }
+    input[type="range"].roi-range:hover::-webkit-slider-thumb {
+      box-shadow: 0 0 18px rgba(34,211,238,0.7);
+    }
+    input[type="range"].roi-range::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--cyan); cursor: pointer; border: none;
+      box-shadow: 0 0 10px rgba(34,211,238,0.45);
+    }
+
+    /* ── ROI Calculator v2 ── */
+    .roi2-wrap { background:var(--surface); border:1px solid var(--br); border-radius:20px; overflow:hidden; max-width:920px; margin:0 auto; }
+    .roi2-toggle-row { display:flex; align-items:center; justify-content:center; gap:16px; padding:32px 40px 0; flex-wrap:wrap; }
+    .roi2-lbl { font-size:0.9rem; font-weight:700; color:var(--tx-3); transition:color 0.3s; }
+    .roi2-lbl.pain    { color:#F87171; }
+    .roi2-lbl.success { color:var(--cyan); }
+    .roi2-body { display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:32px 40px 0; align-items:start; }
+    .roi2-controls { display:flex; flex-direction:column; gap:24px; padding-bottom:32px; }
+    .roi2-results  { display:flex; flex-direction:column; gap:14px; padding-bottom:32px; }
+    .roi2-ctrl-group { display:flex; flex-direction:column; gap:10px; }
+    .roi2-ctrl-labels { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .roi2-ctrl-labels label { font-size:0.82rem; font-weight:600; color:var(--tx-2); }
+    .roi2-ctrl-val { font-size:0.95rem; font-weight:700; color:var(--cyan); background:rgba(34,211,238,0.08); padding:3px 10px; border-radius:8px; transition:all 0.3s; white-space:nowrap; flex-shrink:0; }
+    .roi2-ctrl-val.pain { color:#F87171; background:rgba(239,68,68,0.08); }
+    input[type="range"].roi2-range { width:100%; -webkit-appearance:none; appearance:none; height:6px; border-radius:3px; background:var(--surface-2); outline:none; cursor:pointer; }
+    input[type="range"].roi2-range::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--cyan); cursor:pointer; box-shadow:0 0 10px rgba(34,211,238,0.45); transition:box-shadow 0.2s, background 0.3s; }
+    input[type="range"].roi2-range.pain::-webkit-slider-thumb { background:#F87171; box-shadow:0 0 10px rgba(239,68,68,0.45); }
+    input[type="range"].roi2-range::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:var(--cyan); cursor:pointer; border:none; }
+    input[type="range"].roi2-range.pain::-moz-range-thumb { background:#F87171; }
+    .roi2-visual { display:flex; align-items:center; gap:14px; padding:16px; border-radius:12px; border:1px dashed; transition:all 0.35s; }
+    .roi2-visual.pain    { background:rgba(239,68,68,0.07);   border-color:rgba(239,68,68,0.35); }
+    .roi2-visual.success { background:rgba(16,185,129,0.07);  border-color:rgba(16,185,129,0.35); }
+    .roi2-vis-icon { font-size:2rem; line-height:1; flex-shrink:0; }
+    .roi2-vis-text { display:flex; flex-direction:column; gap:3px; }
+    .roi2-vis-text strong { font-size:0.85rem; font-weight:600; color:var(--tx-1); }
+    .roi2-vis-text span   { font-size:0.75rem; color:var(--tx-3); line-height:1.4; }
+    .roi2-box { border-radius:14px; padding:20px 22px; border:1px solid var(--br); background:var(--surface-2); transition:all 0.4s; }
+    .roi2-box h4 { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--tx-3); margin-bottom:8px; }
+    .roi2-num { font-family:'DM Serif Display',serif; font-size:2.2rem; line-height:1; color:var(--tx-1); margin-bottom:4px; transition:color 0.3s; }
+    .roi2-sub { font-size:0.74rem; color:var(--tx-3); margin:0; }
+    .roi2-box.income-pain    { border-color:rgba(239,68,68,0.25);   background:rgba(239,68,68,0.06); }
+    .roi2-box.income-success { border-color:rgba(16,185,129,0.3);   background:rgba(16,185,129,0.07); }
+    .roi2-box.pain-card  { border-color:rgba(239,68,68,0.2);   background:rgba(239,68,68,0.05); }
+    .roi2-box.succ-card  { border-color:rgba(16,185,129,0.25); background:rgba(16,185,129,0.06); }
+    .roi2-box.roi-card   { border-color:rgba(34,211,238,0.3);  background:rgba(34,211,238,0.06); }
+    .roi2-box.time-card  { border-color:rgba(16,185,129,0.2);  background:rgba(16,185,129,0.05); }
+    .roi2-num.pain-col { color:#F87171; }
+    .roi2-num.succ-col { color:var(--green); }
+    .roi2-num.cyan-col { color:var(--cyan); }
+    .roi2-cta-bar { text-align:center; padding:0 40px 40px; }
+    .roi2-cta-inner { border-top:1px solid var(--br); padding-top:28px; }
+    @media (max-width:680px) {
+      .roi2-body { grid-template-columns:1fr; padding:20px 24px 0; gap:0; }
+      .roi2-toggle-row { padding:24px 24px 0; gap:12px; }
+      .roi2-cta-bar { padding:0 24px 32px; }
+      .roi2-num { font-size:1.8rem; }
+      .roi2-controls { padding-bottom:0; }
+    }
+
     /* ── Pricing ── */
     #precios { background: var(--bg); }
     .pricing-card {
@@ -758,11 +835,215 @@
       <div class="pain-cta-box reveal d5">
         <p style="font-family:'DM Serif Display',serif; font-size:1.5rem; color:var(--cyan); margin-bottom:10px;">Existe una solución.</p>
         <p style="font-size:0.85rem; color:var(--tx-2); margin-bottom:20px;">Activa en tu consultorio en menos de 24 horas.</p>
-        <a href="#soluciones" class="btn btn-outline-cyan">Ver cómo funciona</a>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ════════════════════════════════
+     EN ACCIÓN
+════════════════════════════════ -->
+<section id="demo-wa" style="background:var(--bg); padding:100px 0;">
+  <div class="container">
+
+    <div class="reveal" style="text-align:center; margin-bottom:56px;">
+      <span class="section-label">En acción</span>
+      <h2 class="display">Así responde tu agente</h2>
+      <p class="lead" style="max-width:500px; margin:0 auto;">Esto es exactamente lo que ven tus pacientes cuando escriben a tu WhatsApp — a cualquier hora, en segundos.</p>
+    </div>
+
+    <!-- Phone mockup -->
+    <div style="display:flex; justify-content:center;">
+      <div style="width:100%; max-width:380px;">
+
+        <!-- Phone shell -->
+        <div style="
+          background:#111B21;
+          border-radius:32px;
+          box-shadow: 0 0 0 8px #1A2433, 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(34,211,238,0.06);
+          overflow:hidden;
+          font-family:'Figtree',sans-serif;
+        ">
+
+          <!-- WA Header -->
+          <div style="
+            background:#1F2C34;
+            padding:14px 16px 12px;
+            display:flex; align-items:center; gap:12px;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+          ">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg>
+            <div style="
+              width:38px; height:38px; border-radius:50%; flex-shrink:0;
+              background:linear-gradient(135deg,#0891B2,#22D3EE);
+              display:flex; align-items:center; justify-content:center;
+              font-weight:700; font-size:0.9rem; color:white;
+            ">IA</div>
+            <div style="flex:1; min-width:0;">
+              <p style="font-size:0.9rem; font-weight:600; color:#E9EDF0; margin:0;">Tu Negocio</p>
+              <p id="wa-status" style="font-size:0.72rem; color:#8696A0; margin:0; transition:opacity 0.3s;">en línea</p>
+            </div>
+            <div style="display:flex; gap:18px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.18a2 2 0 012-1.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </div>
+          </div>
+
+          <!-- Chat area -->
+          <div id="wa-chat" style="
+            background:#0B141A;
+            min-height:440px;
+            padding:16px 12px 12px;
+            display:flex; flex-direction:column; gap:6px;
+            overflow:hidden;
+            position:relative;
+          ">
+            <div style="
+              position:absolute; inset:0; opacity:0.03;
+              background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><text y=%2240%22 font-size=%2236%22>💬</text></svg>');
+              pointer-events:none;
+            "></div>
+            <div style="text-align:center; margin:4px 0 10px;">
+              <span style="background:#1F2C34; color:#8696A0; font-size:0.7rem; padding:4px 10px; border-radius:8px;">Hoy</span>
+            </div>
+          </div>
+
+          <!-- Typing bar -->
+          <div id="wa-typing-bar" style="
+            background:#1F2C34;
+            padding:10px 14px;
+            display:flex; align-items:center; gap:10px;
+            border-top:1px solid rgba(255,255,255,0.04);
+          ">
+            <div style="flex:1; background:#2A3942; border-radius:20px; padding:10px 14px;">
+              <span id="wa-input-text" style="font-size:0.85rem; color:#8696A0;"></span>
+              <span id="wa-cursor" style="display:inline-block; width:2px; height:14px; background:#8696A0; margin-left:1px; vertical-align:middle; animation:blink 1s step-end infinite;"></span>
+            </div>
+            <div style="width:36px; height:36px; border-radius:50%; background:#00A884; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <p style="text-align:center; font-size:0.78rem; color:var(--tx-3); margin-top:20px;">
+          Conversación real · respuesta en menos de 3 segundos
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes bubbleIn {
+    from { opacity:0; transform:translateY(8px) scale(0.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .wa-bubble {
+    max-width:80%; padding:8px 12px 6px; border-radius:8px;
+    font-size:0.82rem; line-height:1.5;
+    animation: bubbleIn 0.25s ease forwards;
+    word-break:break-word; position:relative;
+  }
+  .wa-bubble.patient { background:#005C4B; color:#E9EDF0; align-self:flex-end; border-bottom-right-radius:2px; }
+  .wa-bubble.agent   { background:#1F2C34; color:#E9EDF0; align-self:flex-start; border-bottom-left-radius:2px; }
+  .wa-bubble .wa-time { font-size:0.62rem; color:rgba(233,237,240,0.45); float:right; margin-left:10px; margin-top:2px; }
+  .wa-bubble.patient .wa-time::after { content:'✓✓'; color:#53BDEB; margin-left:3px; }
+  .wa-typing-dots {
+    background:#1F2C34; border-radius:8px; border-bottom-left-radius:2px;
+    padding:10px 14px; align-self:flex-start;
+    display:flex; gap:4px; align-items:center;
+    animation: bubbleIn 0.2s ease forwards;
+  }
+  .wa-typing-dots span { width:7px; height:7px; border-radius:50%; background:#8696A0; animation: dotBounce 1.2s ease-in-out infinite; }
+  .wa-typing-dots span:nth-child(2) { animation-delay:0.2s; }
+  .wa-typing-dots span:nth-child(3) { animation-delay:0.4s; }
+  @keyframes dotBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+</style>
+
+<script>
+(function() {
+  var chat = document.getElementById('wa-chat');
+  var status = document.getElementById('wa-status');
+  var inputText = document.getElementById('wa-input-text');
+
+  function getTime() {
+    var d = new Date();
+    return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+
+  var MESSAGES = [
+    { from:'patient', text:'Hola! Quisiera agendar una cita con el doctor, ¿tienen disponibilidad esta semana?' },
+    { from:'agent',   text:'¡Hola! 👋 Claro, con gusto te ayudo. Tenemos los siguientes horarios disponibles:\n\n📅 Martes 15 — 10:00am o 4:00pm\n📅 Miércoles 16 — 11:30am\n📅 Jueves 17 — 9:00am o 5:00pm\n\n¿Cuál te viene mejor?' },
+    { from:'patient', text:'El miércoles a las 11:30 estaría perfecto 👍' },
+    { from:'agent',   text:'¡Perfecto! Tu cita queda confirmada ✅\n\n👤 Paciente: Tu nombre\n📅 Miércoles 16 de abril\n🕐 11:30am\n👨‍⚕️ Dr. García\n\nTe enviamos la ubicación del consultorio 👇' },
+    { from:'agent',   text:'📍 <a href="https://maps.google.com" target="_blank" style="color:#53BDEB;">Ver en Google Maps →\nConsultorio Médico · Av. Insurgentes Sur 1234, CDMX</a>\n\nTe recordaremos un día antes de tu cita. ¡Hasta el miércoles! 😊' },
+  ];
+
+  var typingDots = null, step = 0, loopTimeout = null, typingInterval = null, isRunning = false;
+
+  function showTyping() {
+    typingDots = document.createElement('div');
+    typingDots.className = 'wa-typing-dots';
+    typingDots.innerHTML = '<span></span><span></span><span></span>';
+    chat.appendChild(typingDots);
+    chat.scrollTop = chat.scrollHeight;
+    status.textContent = 'escribiendo…';
+  }
+  function hideTyping() {
+    if (typingDots && typingDots.parentNode) typingDots.parentNode.removeChild(typingDots);
+    typingDots = null; status.textContent = 'en línea';
+  }
+  function stopAnimation() {
+    if (loopTimeout) { clearTimeout(loopTimeout); loopTimeout = null; }
+    if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
+    hideTyping(); inputText.textContent = ''; clearChat(); isRunning = false;
+  }
+  function addBubble(msg) {
+    hideTyping();
+    var div = document.createElement('div');
+    div.className = 'wa-bubble ' + msg.from;
+    div.innerHTML = msg.text.replace(/\n/g,'<br>') + '<span class="wa-time">' + getTime() + '</span>';
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+  function typeInInput(text, cb) {
+    var i = 0; inputText.textContent = '';
+    typingInterval = setInterval(function() {
+      if (i < text.length) { inputText.textContent += text[i++]; }
+      else { clearInterval(typingInterval); typingInterval = null; loopTimeout = setTimeout(function() { inputText.textContent = ''; cb(); }, 200); }
+    }, 38);
+  }
+  function clearChat() {
+    chat.querySelectorAll('.wa-bubble, .wa-typing-dots').forEach(function(n){ n.parentNode.removeChild(n); });
+    step = 0;
+  }
+  function runStep() {
+    isRunning = true;
+    if (step >= MESSAGES.length) {
+      loopTimeout = setTimeout(function() { clearChat(); loopTimeout = setTimeout(runStep, 800); }, 4000);
+      return;
+    }
+    var msg = MESSAGES[step++];
+    if (msg.from === 'patient') {
+      typeInInput(msg.text.substring(0, Math.min(msg.text.length, 32)), function() {
+        addBubble(msg); loopTimeout = setTimeout(runStep, 900);
+      });
+    } else {
+      showTyping();
+      loopTimeout = setTimeout(function() {
+        addBubble(msg); loopTimeout = setTimeout(runStep, 1000);
+      }, Math.min(1200 + msg.text.length * 12, 2800));
+    }
+  }
+
+  var demoObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) { if (!isRunning) loopTimeout = setTimeout(runStep, 600); }
+    else { stopAnimation(); }
+  }, { threshold: 0.3 });
+  demoObs.observe(document.getElementById('demo-wa'));
+})();
+</script>
 
 <!-- ════════════════════════════════
      ESPECIALIDADES
@@ -904,294 +1185,6 @@
     </div>
   </div>
 </section>
-
-<!-- ════════════════════════════════
-     WHATSAPP DEMO
-════════════════════════════════ -->
-<section id="demo-wa" style="background:var(--bg); padding:100px 0;">
-  <div class="container">
-
-    <div class="reveal" style="text-align:center; margin-bottom:56px;">
-      <span class="section-label">En acción</span>
-      <h2 class="display">Así responde tu agente</h2>
-      <p class="lead" style="max-width:500px; margin:0 auto;">Esto es exactamente lo que ven tus pacientes cuando escriben a tu WhatsApp — a cualquier hora, en segundos.</p>
-    </div>
-
-    <!-- Phone mockup -->
-    <div style="display:flex; justify-content:center;">
-      <div style="width:100%; max-width:380px;">
-
-        <!-- Phone shell -->
-        <div style="
-          background:#111B21;
-          border-radius:32px;
-          box-shadow: 0 0 0 8px #1A2433, 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(34,211,238,0.06);
-          overflow:hidden;
-          font-family:'Figtree',sans-serif;
-        ">
-
-          <!-- WA Header -->
-          <div style="
-            background:#1F2C34;
-            padding:14px 16px 12px;
-            display:flex; align-items:center; gap:12px;
-            border-bottom:1px solid rgba(255,255,255,0.06);
-          ">
-            <!-- Back arrow -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg>
-            <!-- Avatar -->
-            <div style="
-              width:38px; height:38px; border-radius:50%; flex-shrink:0;
-              background:linear-gradient(135deg,#0891B2,#22D3EE);
-              display:flex; align-items:center; justify-content:center;
-              font-weight:700; font-size:0.9rem; color:white;
-            ">IA</div>
-            <!-- Name + status -->
-            <div style="flex:1; min-width:0;">
-              <p style="font-size:0.9rem; font-weight:600; color:#E9EDF0; margin:0;">Tu Negocio</p>
-              <p id="wa-status" style="font-size:0.72rem; color:#8696A0; margin:0; transition:opacity 0.3s;">en línea</p>
-            </div>
-            <!-- Icons -->
-            <div style="display:flex; gap:18px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.18a2 2 0 012-1.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-            </div>
-          </div>
-
-          <!-- Chat area -->
-          <div id="wa-chat" style="
-            background:#0B141A;
-            min-height:440px;
-            padding:16px 12px 12px;
-            display:flex; flex-direction:column; gap:6px;
-            overflow:hidden;
-            position:relative;
-          ">
-            <!-- Watermark pattern subtle -->
-            <div style="
-              position:absolute; inset:0; opacity:0.03;
-              background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><text y=%2240%22 font-size=%2236%22>💬</text></svg>');
-              pointer-events:none;
-            "></div>
-
-            <!-- Day label -->
-            <div style="text-align:center; margin:4px 0 10px;">
-              <span style="background:#1F2C34; color:#8696A0; font-size:0.7rem; padding:4px 10px; border-radius:8px;">Hoy</span>
-            </div>
-
-            <!-- Messages injected by JS -->
-          </div>
-
-          <!-- Typing indicator area -->
-          <div id="wa-typing-bar" style="
-            background:#1F2C34;
-            padding:10px 14px;
-            display:flex; align-items:center; gap:10px;
-            border-top:1px solid rgba(255,255,255,0.04);
-          ">
-            <div style="flex:1; background:#2A3942; border-radius:20px; padding:10px 14px;">
-              <span id="wa-input-text" style="font-size:0.85rem; color:#8696A0;"></span>
-              <span id="wa-cursor" style="display:inline-block; width:2px; height:14px; background:#8696A0; margin-left:1px; vertical-align:middle; animation:blink 1s step-end infinite;"></span>
-            </div>
-            <div style="width:36px; height:36px; border-radius:50%; background:#00A884; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Caption -->
-        <p style="text-align:center; font-size:0.78rem; color:var(--tx-3); margin-top:20px;">
-          Conversación real · respuesta en menos de 3 segundos
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  @keyframes bubbleIn {
-    from { opacity:0; transform:translateY(8px) scale(0.97); }
-    to   { opacity:1; transform:translateY(0) scale(1); }
-  }
-  .wa-bubble {
-    max-width:80%;
-    padding:8px 12px 6px;
-    border-radius:8px;
-    font-size:0.82rem;
-    line-height:1.5;
-    animation: bubbleIn 0.25s ease forwards;
-    word-break:break-word;
-    position:relative;
-  }
-  .wa-bubble.patient {
-    background:#005C4B;
-    color:#E9EDF0;
-    align-self:flex-end;
-    border-bottom-right-radius:2px;
-  }
-  .wa-bubble.agent {
-    background:#1F2C34;
-    color:#E9EDF0;
-    align-self:flex-start;
-    border-bottom-left-radius:2px;
-  }
-  .wa-bubble .wa-time {
-    font-size:0.62rem;
-    color:rgba(233,237,240,0.45);
-    float:right;
-    margin-left:10px;
-    margin-top:2px;
-  }
-  .wa-bubble.patient .wa-time::after {
-    content:'✓✓';
-    color:#53BDEB;
-    margin-left:3px;
-  }
-  .wa-typing-dots {
-    background:#1F2C34;
-    border-radius:8px; border-bottom-left-radius:2px;
-    padding:10px 14px;
-    align-self:flex-start;
-    display:flex; gap:4px; align-items:center;
-    animation: bubbleIn 0.2s ease forwards;
-  }
-  .wa-typing-dots span {
-    width:7px; height:7px; border-radius:50%;
-    background:#8696A0;
-    animation: dotBounce 1.2s ease-in-out infinite;
-  }
-  .wa-typing-dots span:nth-child(2) { animation-delay:0.2s; }
-  .wa-typing-dots span:nth-child(3) { animation-delay:0.4s; }
-  @keyframes dotBounce {
-    0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)}
-  }
-</style>
-
-<script>
-(function() {
-  var chat = document.getElementById('wa-chat');
-  var status = document.getElementById('wa-status');
-  var inputText = document.getElementById('wa-input-text');
-
-  function getTime() {
-    var d = new Date();
-    return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
-  }
-
-  var MESSAGES = [
-    { from:'patient', text:'Hola! Quisiera agendar una cita con el doctor, ¿tienen disponibilidad esta semana?' },
-    { from:'agent',   text:'¡Hola! 👋 Claro, con gusto te ayudo. Tenemos los siguientes horarios disponibles:\n\n📅 Martes 15 — 10:00am o 4:00pm\n📅 Miércoles 16 — 11:30am\n📅 Jueves 17 — 9:00am o 5:00pm\n\n¿Cuál te viene mejor?' },
-    { from:'patient', text:'El miércoles a las 11:30 estaría perfecto 👍' },
-    { from:'agent',   text:'¡Perfecto! Tu cita queda confirmada ✅\n\n👤 Paciente: Tu nombre\n📅 Miércoles 16 de abril\n🕐 11:30am\n👨‍⚕️ Dr. García\n\nTe enviamos la ubicación del consultorio 👇' },
-    { from:'agent',   text:'📍 <a href="https://maps.google.com" target="_blank" style="color:#53BDEB;">Ver en Google Maps →\nConsultorio Médico · Av. Insurgentes Sur 1234, CDMX</a>\n\nTe recordaremos un día antes de tu cita. ¡Hasta el miércoles! 😊' },
-  ];
-
-  var typingDots = null;
-  var step = 0;
-  var loopTimeout = null;
-  var typingInterval = null;
-  var isRunning = false;
-
-  function showTyping() {
-    typingDots = document.createElement('div');
-    typingDots.className = 'wa-typing-dots';
-    typingDots.innerHTML = '<span></span><span></span><span></span>';
-    chat.appendChild(typingDots);
-    chat.scrollTop = chat.scrollHeight;
-    status.textContent = 'escribiendo…';
-  }
-
-  function hideTyping() {
-    if (typingDots && typingDots.parentNode) typingDots.parentNode.removeChild(typingDots);
-    typingDots = null;
-    status.textContent = 'en línea';
-  }
-
-  function stopAnimation() {
-    if (loopTimeout) { clearTimeout(loopTimeout); loopTimeout = null; }
-    if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
-    hideTyping();
-    inputText.textContent = '';
-    clearChat();
-    isRunning = false;
-  }
-
-  function addBubble(msg) {
-    hideTyping();
-    var div = document.createElement('div');
-    div.className = 'wa-bubble ' + msg.from;
-    var lines = msg.text.replace(/\n/g,'<br>');
-    div.innerHTML = lines + '<span class="wa-time">' + getTime() + '</span>';
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-  }
-
-  function typeInInput(text, cb) {
-    var i = 0;
-    inputText.textContent = '';
-    typingInterval = setInterval(function() {
-      if (i < text.length) {
-        inputText.textContent += text[i++];
-      } else {
-        clearInterval(typingInterval);
-        typingInterval = null;
-        loopTimeout = setTimeout(function() { inputText.textContent = ''; cb(); }, 200);
-      }
-    }, 38);
-  }
-
-  function clearChat() {
-    // Remove all bubbles (keep day label)
-    var nodes = chat.querySelectorAll('.wa-bubble, .wa-typing-dots');
-    nodes.forEach(function(n){ n.parentNode.removeChild(n); });
-    step = 0;
-  }
-
-  function runStep() {
-    isRunning = true;
-    if (step >= MESSAGES.length) {
-      // Pause then restart
-      loopTimeout = setTimeout(function() {
-        clearChat();
-        loopTimeout = setTimeout(runStep, 800);
-      }, 4000);
-      return;
-    }
-
-    var msg = MESSAGES[step];
-    step++;
-
-    if (msg.from === 'patient') {
-      // Type in input bar, then send
-      typeInInput(msg.text.substring(0, Math.min(msg.text.length, 32)), function() {
-        addBubble(msg);
-        loopTimeout = setTimeout(runStep, 900);
-      });
-    } else {
-      // Show typing dots, then agent bubble
-      showTyping();
-      var delay = 1200 + msg.text.length * 12;
-      loopTimeout = setTimeout(function() {
-        addBubble(msg);
-        loopTimeout = setTimeout(runStep, 1000);
-      }, Math.min(delay, 2800));
-    }
-  }
-
-  // Activate animation when section is visible, stop it when out of viewport
-  var demoObs = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting) {
-      if (!isRunning) {
-        loopTimeout = setTimeout(runStep, 600);
-      }
-    } else {
-      stopAnimation();
-    }
-  }, { threshold: 0.3 });
-  demoObs.observe(document.getElementById('demo-wa'));
-})();
-</script>
 
 <!-- ════════════════════════════════
      FEATURES
@@ -1338,6 +1331,47 @@
       </div>
     </div>
 
+    <!-- Additional testimonials -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:900px; margin:48px auto 0;">
+
+      <div class="card reveal d1" style="padding:28px; position:relative; overflow:hidden;">
+        <div style="font-family:'DM Serif Display',serif; font-size:5rem; line-height:1; color:var(--cyan); opacity:0.12; position:absolute; top:-12px; left:8px; user-select:none;">"</div>
+        <p style="font-size:0.95rem; color:var(--tx-2); line-height:1.65; margin-bottom:20px; position:relative; z-index:1;">
+          "Antes perdíamos entre 5 y 8 pacientes a la semana por no contestar rápido. Desde que activamos el asistente, llenamos la agenda sola. Fue la mejor decisión del año."
+        </p>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#7C3AED,#A78BFA); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-size:1rem; color:white; flex-shrink:0;">V</div>
+          <div>
+            <p style="font-weight:600; color:var(--tx-1); font-size:0.9rem;">Dra. Valeria Ríos</p>
+            <p style="font-size:0.75rem; color:var(--tx-3);">Clínica Dental Sonríe Más, Guadalajara</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span style="background:rgba(34,211,238,0.1); border:1px solid rgba(34,211,238,0.25); color:var(--cyan); font-size:0.72rem; font-weight:600; padding:3px 10px; border-radius:100px;">+70% citas agendadas</span>
+          <span style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); color:var(--green); font-size:0.72rem; font-weight:600; padding:3px 10px; border-radius:100px;">0 mensajes sin contestar</span>
+        </div>
+      </div>
+
+      <div class="card reveal d2" style="padding:28px; position:relative; overflow:hidden;">
+        <div style="font-family:'DM Serif Display',serif; font-size:5rem; line-height:1; color:var(--cyan); opacity:0.12; position:absolute; top:-12px; left:8px; user-select:none;">"</div>
+        <p style="font-size:0.95rem; color:var(--tx-2); line-height:1.65; margin-bottom:20px; position:relative; z-index:1;">
+          "Pensé que sería complicado, pero en menos de 24 horas ya estaba funcionando. Mis pacientes creen que tengo recepcionista disponible todo el día. El asistente hace un trabajo increíble."
+        </p>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#0891B2,#22D3EE); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-size:1rem; color:white; flex-shrink:0;">H</div>
+          <div>
+            <p style="font-weight:600; color:var(--tx-1); font-size:0.9rem;">Dr. Héctor Fuentes</p>
+            <p style="font-size:0.75rem; color:var(--tx-3);">Consultorio de Medicina General, CDMX</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:#F87171; font-size:0.72rem; font-weight:600; padding:3px 10px; border-radius:100px;">-65% ausencias</span>
+          <span style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); color:var(--green); font-size:0.72rem; font-weight:600; padding:3px 10px; border-radius:100px;">Activo desde el primer día</span>
+        </div>
+      </div>
+
+    </div>
+
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:1px; background:var(--br); border-radius:16px; overflow:hidden; max-width:700px; margin:64px auto 0; border:1px solid var(--br);">
       <div class="reveal d1" style="background:var(--surface); padding:28px; text-align:center;">
         <p style="font-family:'DM Serif Display',serif; font-size:2rem; color:var(--cyan); margin-bottom:4px;">+400%</p>
@@ -1366,64 +1400,114 @@
   <div class="container">
     <div class="reveal" style="text-align:center; margin-bottom:52px;">
       <span class="section-label">Calculadora de impacto</span>
-      <h2 class="display">¿Cuánto te cuesta<br />NO tenerlo?</h2>
-      <p class="lead" style="max-width:480px; margin:0 auto;">Descubre en segundos cuántos ingresos estás dejando ir cada mes.</p>
+      <h2 class="display">¿Cuánto pierdes<br />sin el asistente IA?</h2>
+      <p class="lead" style="max-width:560px; margin:0 auto;">Ajusta tu consultorio y descubre la diferencia en tiempo real. <strong>Responder al instante multiplica tus citas y te libera horas.</strong></p>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:860px; margin:0 auto;" class="reveal" id="roi-grid">
-      <!-- Inputs -->
-      <div style="background:var(--surface); border:1px solid var(--br); border-radius:18px; padding:36px;">
-        <h3 style="font-weight:600; color:var(--tx-1); margin-bottom:28px;">Datos de tu consultorio</h3>
-        <div style="display:flex; flex-direction:column; gap:18px;">
-          <div>
-            <label style="display:block; font-size:0.82rem; font-weight:500; color:var(--tx-2); margin-bottom:8px;" for="citas-semana">Citas por semana</label>
-            <input type="number" id="citas-semana" class="roi-input" value="30" min="1" />
+    <div class="roi2-wrap reveal">
+
+      <!-- Toggle -->
+      <div class="roi2-toggle-row">
+        <span id="roi2-lbl-sin" class="roi2-lbl pain">Sin Frace (~2% cierre)</span>
+        <label style="position:relative; display:inline-block; width:56px; height:30px; cursor:pointer; flex-shrink:0;">
+          <input type="checkbox" id="roi2-toggle" style="opacity:0; width:0; height:0; position:absolute;">
+          <span id="roi2-track" style="position:absolute; inset:0; background:rgba(239,68,68,0.3); border:1px solid rgba(239,68,68,0.5); border-radius:15px; transition:all 0.35s;"></span>
+          <span id="roi2-thumb" style="position:absolute; top:5px; left:5px; width:20px; height:20px; border-radius:50%; background:#F87171; box-shadow:0 2px 8px rgba(0,0,0,0.4); transition:all 0.35s;"></span>
+        </label>
+        <span id="roi2-lbl-con" class="roi2-lbl">Con Frace (~7% cierre) 🚀</span>
+      </div>
+
+      <!-- Body: controls + results -->
+      <div class="roi2-body">
+
+        <!-- Left: sliders + visual trigger -->
+        <div class="roi2-controls">
+
+          <div class="roi2-ctrl-group">
+            <div class="roi2-ctrl-labels">
+              <label for="roi2-s-leads">Pacientes que consultan / día</label>
+              <span id="roi2-v-leads" class="roi2-ctrl-val pain">20</span>
+            </div>
+            <input type="range" id="roi2-s-leads" min="5" max="100" step="5" value="20" class="roi2-range pain">
           </div>
-          <div>
-            <label style="display:block; font-size:0.82rem; font-weight:500; color:var(--tx-2); margin-bottom:8px;" for="pct-noshow">Pacientes que no se presentan (%)</label>
-            <input type="number" id="pct-noshow" class="roi-input" value="20" min="0" max="100" />
+
+          <div class="roi2-ctrl-group">
+            <div class="roi2-ctrl-labels">
+              <label for="roi2-s-ticket">Ticket promedio por consulta</label>
+              <span id="roi2-v-ticket" class="roi2-ctrl-val pain">$800 MXN</span>
+            </div>
+            <input type="range" id="roi2-s-ticket" min="200" max="5000" step="100" value="800" class="roi2-range pain">
           </div>
-          <div>
-            <label style="display:block; font-size:0.82rem; font-weight:500; color:var(--tx-2); margin-bottom:8px;" for="ticket-consulta">Ticket promedio por consulta (MXN)</label>
-            <input type="number" id="ticket-consulta" class="roi-input" value="800" min="100" />
+
+          <!-- Gatillo visual -->
+          <div id="roi2-visual" class="roi2-visual pain">
+            <span id="roi2-vis-icon" class="roi2-vis-icon">😫📉</span>
+            <div class="roi2-vis-text">
+              <strong id="roi2-vis-title">Atrapado en llamadas y mensajes...</strong>
+              <span id="roi2-vis-desc">Menos citas, más ausencias y tiempo perdido en gestión manual.</span>
+            </div>
           </div>
-          <div>
-            <label style="display:block; font-size:0.82rem; font-weight:500; color:var(--tx-2); margin-bottom:8px;" for="sueldo-recep">Sueldo mensual recepcionista (MXN)</label>
-            <input type="number" id="sueldo-recep" class="roi-input" value="8000" min="0" />
+
+        </div>
+
+        <!-- Right: result cards -->
+        <div class="roi2-results">
+
+          <!-- SIEMPRE VISIBLE: ingreso neto mensual -->
+          <div id="roi2-box-income" class="roi2-box income-pain">
+            <h4>Ingreso neto mensual</h4>
+            <div class="roi2-num pain-col" id="roi2-num-income">$0 MXN</div>
+            <p class="roi2-sub" id="roi2-sub-income">Con 2% de cierre · 15% de ausencias</p>
           </div>
+
+          <!-- SIN FRACE: pérdida por ausencias -->
+          <div id="roi2-box-aus" class="roi2-box pain-card">
+            <h4>Pérdida por pacientes que no llegan</h4>
+            <div class="roi2-num pain-col" id="roi2-num-aus">$0 MXN</div>
+            <p class="roi2-sub">~15% de tus citas agendadas se van sin cobrar</p>
+          </div>
+
+          <!-- SIN FRACE: horas perdidas -->
+          <div id="roi2-box-tsin" class="roi2-box pain-card">
+            <h4>Horas en gestión manual / mes</h4>
+            <div class="roi2-num pain-col" id="roi2-num-tsin">0 hrs</div>
+            <p class="roi2-sub">5 min × paciente × 30 días. ¡Tiempo que no regresa!</p>
+          </div>
+
+          <!-- CON FRACE: ingresos extra -->
+          <div id="roi2-box-extra" class="roi2-box succ-card" style="display:none;">
+            <h4>Ingresos extra vs sin IA / mes</h4>
+            <div class="roi2-num succ-col" id="roi2-num-extra">$0 MXN</div>
+            <p class="roi2-sub">Mayor cierre (2%→7%) + menos ausencias (15%→6%)</p>
+          </div>
+
+          <!-- CON FRACE: días para recuperar inversión -->
+          <div id="roi2-box-roi" class="roi2-box roi-card" style="display:none;">
+            <h4>Recuperas $4,497 MXN en</h4>
+            <div class="roi2-num cyan-col" id="roi2-num-roi">— días</div>
+            <p class="roi2-sub">Inversión pagada sola con tu beneficio extra mensual</p>
+          </div>
+
+          <!-- CON FRACE: tiempo automatizado -->
+          <div id="roi2-box-tcon" class="roi2-box time-card" style="display:none;">
+            <h4>Tiempo automatizado / mes</h4>
+            <div class="roi2-num succ-col" id="roi2-num-tcon">0 hrs</div>
+            <p class="roi2-sub">Tiempo 100% libre para ti y tus pacientes</p>
+          </div>
+
         </div>
       </div>
 
-      <!-- Results -->
-      <div style="background:var(--bg-3); border:1px solid var(--br); border-radius:18px; padding:36px; display:flex; flex-direction:column; gap:0;">
-        <h3 style="font-weight:600; color:var(--tx-2); margin-bottom:28px;">Tu situación actual</h3>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--br);">
-          <span style="font-size:0.82rem; color:var(--tx-3);">Pérdida por citas no presentadas / mes</span>
-          <span id="res-noshow" style="font-family:'DM Serif Display',serif; font-size:1.6rem; color:#F87171;">−$0</span>
+      <!-- CTA -->
+      <div class="roi2-cta-bar">
+        <div class="roi2-cta-inner">
+          <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-green btn-green-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Quiero recuperar ese dinero
+          </a>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--br);">
-          <span style="font-size:0.82rem; color:var(--tx-3);">Ingresos totales en riesgo / mes</span>
-          <span id="res-riesgo" style="font-family:'DM Serif Display',serif; font-size:1.6rem; color:#FB923C;">$0</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--br);">
-          <span style="font-size:0.82rem; color:var(--tx-3);">Costo recepcionista / mes</span>
-          <span id="res-recep" style="font-family:'DM Serif Display',serif; font-size:1.6rem; color:var(--tx-3);">$0</span>
-        </div>
-
-        <div style="margin-top:20px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:12px; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
-          <div>
-            <p style="font-weight:600; color:var(--green); font-size:0.875rem;">Ahorro potencial con el agente IA</p>
-            <p style="font-size:0.75rem; color:var(--tx-3); margin-top:2px;">Reduciendo 60% de ausencias</p>
-          </div>
-          <span id="res-ahorro" style="font-family:'DM Serif Display',serif; font-size:2rem; color:var(--green); flex-shrink:0;">$0</span>
-        </div>
-
-        <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-green" style="margin-top:20px; justify-content:center; padding:14px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Quiero recuperar ese dinero
-        </a>
       </div>
+
     </div>
   </div>
 </section>
@@ -1433,6 +1517,12 @@
 ════════════════════════════════ -->
 <section id="precios">
   <div class="container">
+
+    <!-- Urgency Banner -->
+    <div id="urgency-banner" style="background:linear-gradient(135deg,#991B1B,#7F1D1D); border:1px solid rgba(239,68,68,0.4); border-radius:14px; padding:14px 28px; text-align:center; margin-bottom:44px;">
+      <p style="color:#fff; font-weight:700; font-size:1rem; margin:0; letter-spacing:0.01em;">🔥 Esta semana: solo <span id="cupos-num" style="font-size:1.15rem; color:#FCA5A5;">5</span> demos disponibles</p>
+    </div>
+
     <div class="reveal" style="text-align:center; margin-bottom:52px;">
       <span class="section-label">Inversión</span>
       <h2 class="display">Planes para tu práctica</h2>
@@ -1443,21 +1533,30 @@
 
       <!-- Starter -->
       <div class="pricing-card reveal d1">
-        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--tx-3); margin-bottom:20px;">Starter</p>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="background:#FEF08A; color:#713F12; font-size:0.7rem; font-weight:700; padding:3px 12px; border-radius:100px;">Ahorra 50%</span>
+        </div>
+        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--tx-3); margin-bottom:10px;">Starter</p>
+        <div style="margin-bottom:2px;">
+          <span style="font-size:0.95rem; color:#ef4444; text-decoration:line-through; font-weight:500;">$9,000</span>
+          <span style="font-size:0.75rem; color:var(--tx-3); margin-left:4px;">MXN</span>
+        </div>
         <div style="margin-bottom:4px;">
           <span class="price-tag">$4,497</span>
           <span style="font-size:0.82rem; color:var(--tx-3); margin-left:6px;">MXN</span>
         </div>
-        <p style="font-size:0.75rem; color:var(--tx-3); margin-bottom:2px;">Pago único de configuración</p>
-        <p style="font-size:0.82rem; color:var(--tx-2); margin-bottom:28px;">+ $499 MXN / mes <span style="color:var(--tx-3); font-size:0.75rem;">(a partir del 2do mes)</span></p>
+        <p style="font-size:0.75rem; color:var(--tx-3); margin-bottom:2px;">Setup único</p>
+        <p style="font-size:0.82rem; color:var(--tx-2); margin-bottom:24px;">+ $499 MXN / mes <span style="color:var(--tx-3); font-size:0.75rem;">(a partir del 2do mes)</span></p>
 
-        <div style="border-top:1px solid var(--br); padding-top:24px; margin-bottom:28px;">
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 usuarios del CRM</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 canales de atención</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asistente IA básico</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Agendado automático</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Recordatorios de cita</div>
+        <div style="border-top:1px solid var(--br); padding-top:20px; margin-bottom:14px;">
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asistente IA a la medida de su negocio</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Agenda citas automáticamente (Calendly/Google Calendar)</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 Usuarios con acceso independiente</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 Canales (FB, IG o WA)</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Acceso a Boosfy, nuestro CRM multiagente</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte humano, con agente IA 24/7</div>
         </div>
+        <p style="font-size:0.8rem; color:var(--tx-3); font-style:italic; margin-bottom:24px;">Ideal para negocios que quieren automatizar atención y agendamiento básico.</p>
 
         <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-outline-cyan" style="width:100%; justify-content:center;">
           Empezar con Starter
@@ -1467,22 +1566,32 @@
       <!-- PRO -->
       <div class="pricing-card featured reveal d2">
         <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--cyan); color:var(--bg); font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:5px 14px; border-radius:100px;">Más popular</div>
-        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--tx-3); margin-bottom:20px;">PRO</p>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="background:#FEF08A; color:#713F12; font-size:0.7rem; font-weight:700; padding:3px 12px; border-radius:100px;">Ahorra 50%</span>
+        </div>
+        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--tx-3); margin-bottom:10px;">PRO</p>
+        <div style="margin-bottom:2px;">
+          <span style="font-size:0.95rem; color:#ef4444; text-decoration:line-through; font-weight:500;">$15,000</span>
+          <span style="font-size:0.75rem; color:var(--tx-3); margin-left:4px;">MXN</span>
+        </div>
         <div style="margin-bottom:4px;">
           <span class="price-tag">$7,479</span>
           <span style="font-size:0.82rem; color:var(--tx-3); margin-left:6px;">MXN</span>
         </div>
-        <p style="font-size:0.75rem; color:var(--tx-3); margin-bottom:2px;">Pago único de configuración</p>
-        <p style="font-size:0.82rem; color:var(--tx-2); margin-bottom:28px;">+ $499 MXN / mes <span style="color:var(--tx-3); font-size:0.75rem;">(a partir del 2do mes)</span></p>
+        <p style="font-size:0.75rem; color:var(--tx-3); margin-bottom:2px;">Setup único</p>
+        <p style="font-size:0.82rem; color:var(--tx-2); margin-bottom:24px;">+ $499 MXN / mes <span style="color:var(--tx-3); font-size:0.75rem;">(a partir del 2do mes)</span></p>
 
-        <div style="border-top:1px solid var(--br); padding-top:24px; margin-bottom:28px;">
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 usuarios del CRM</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 canales de atención</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Asistente IA avanzado</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Entiende y envía imágenes, audio y documentos</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Google Calendar, Calendly, Doctoralia, Agenda PRO, Eleonor y más</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Reactivación de pacientes</div>
+        <div style="border-top:1px solid var(--br); padding-top:20px; margin-bottom:14px;">
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong>+ Incluye todo lo del Starter</strong></div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Envía imágenes, documentos, videos y audios</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>2 recordatorios automáticos para citas</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Notificación interna al agendar citas</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 Usuarios con acceso independiente</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 Canales (FB, IG o WA)</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>2 integraciones (Sheets, BD, etc.)</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Reactivación de chats inactivos</div>
         </div>
+        <p style="font-size:0.8rem; color:var(--tx-3); font-style:italic; margin-bottom:24px;">Ideal para negocios que quieren automatizar atención, agenda y seguimiento.</p>
 
         <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-green" style="width:100%; justify-content:center; padding:14px;">
           Empezar con PRO
@@ -1491,7 +1600,8 @@
 
       <!-- Ultimate -->
       <div class="pricing-card reveal d3">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px;">
+        <div style="display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg,#F97316,#EF4444); color:white; font-size:0.72rem; font-weight:700; padding:5px 12px; border-radius:100px; margin-bottom:10px;">⚡ Solo 3 disponibles</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--tx-3);">Ultimate</p>
           <span style="background:var(--green-dim); color:var(--green); font-size:0.7rem; font-weight:600; padding:3px 10px; border-radius:100px; border:1px solid rgba(16,185,129,0.3);">Sin mensualidad</span>
         </div>
@@ -1499,16 +1609,19 @@
           <span class="price-tag">$14,999</span>
           <span style="font-size:0.82rem; color:var(--tx-3); margin-left:6px;">MXN</span>
         </div>
-        <p style="font-size:0.75rem; color:var(--tx-3); margin-bottom:2px;">Pago único — incluye configuración</p>
-        <p style="font-size:0.82rem; color:var(--green); font-weight:600; margin-bottom:28px;">Sin mensualidad</p>
+        <p style="font-size:0.875rem; font-weight:700; color:var(--tx-1); margin-bottom:4px;">Pago único de por vida</p>
+        <p style="font-size:0.82rem; color:var(--green); font-weight:600; margin-bottom:24px;">Sin mensualidades</p>
 
-        <div style="border-top:1px solid var(--br); padding-top:24px; margin-bottom:28px;">
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Usuarios y canales ilimitados</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Todo lo del plan PRO</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte prioritario</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Onboarding personalizado</div>
-          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Pago único, sin sorpresas</div>
+        <div style="border-top:1px solid var(--br); padding-top:20px; margin-bottom:14px;">
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong>+ Incluye todo lo del PRO</strong></div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 recordatorios automáticos para citas</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Notificaciones internas para 3 números</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Integraciones ilimitadas</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Sin mensualidades</strong></div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Acceso ilimitado (10 canales y 10 usuarios)</div>
+          <div class="check-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Soporte premium incluido por 1 año</div>
         </div>
+        <p style="font-size:0.8rem; color:var(--tx-3); font-style:italic; margin-bottom:24px;">Ideal para negocios que buscan automatizar completamente su atención y seguimiento.</p>
 
         <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-green" style="width:100%; justify-content:center; padding:14px;">
           Empezar con Ultimate
@@ -1745,36 +1858,152 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('.counter').forEach(function (el) { countObs.observe(el); });
 
-  // ── 6. ROI Calculator ──
-  function calcROI() {
-    var citas   = parseFloat(document.getElementById('citas-semana').value)  || 0;
-    var pct     = parseFloat(document.getElementById('pct-noshow').value)    / 100 || 0;
-    var ticket  = parseFloat(document.getElementById('ticket-consulta').value) || 0;
-    var sueldo  = parseFloat(document.getElementById('sueldo-recep').value)  || 0;
+  // ── 6. ROI Calculator v2 ──
+  (function () {
+    var CIERRE_SIN = 0.02;   // Sin Frace: 2% tasa de cierre
+    var CIERRE_CON = 0.07;   // Con Frace: 7% tasa de cierre
+    var NOSHOW_SIN = 0.15;   // Sin Frace: 15% ausencias
+    var NOSHOW_CON = 0.06;   // Con Frace:  6% ausencias
+    var PLAN_COST  = 4497;   // Inversión plan (MXN)
+    var MIN_PAC    = 5;      // Minutos de gestión manual por paciente
 
-    var citasMes = citas * 4.3;
-    var perdida  = Math.round(citasMes * pct) * ticket;
-    var riesgo   = Math.round(citasMes * ticket);
-    var ahorro   = Math.round(perdida * 0.6);
+    var toggle  = document.getElementById('roi2-toggle');
+    var sLeads  = document.getElementById('roi2-s-leads');
+    var sTicket = document.getElementById('roi2-s-ticket');
+    if (!toggle || !sLeads || !sTicket) return;
+    var active = false;
 
-    var fmt = function(n) { return '$' + Math.round(n).toLocaleString('es-MX'); };
-    document.getElementById('res-noshow').textContent = '−' + fmt(perdida);
-    document.getElementById('res-riesgo').textContent = fmt(riesgo);
-    document.getElementById('res-recep').textContent  = fmt(sueldo);
-    document.getElementById('res-ahorro').textContent = fmt(ahorro);
-  }
-  ['citas-semana','pct-noshow','ticket-consulta','sueldo-recep'].forEach(function(id) {
-    document.getElementById(id).addEventListener('input', calcROI);
-  });
-  calcROI();
+    function fmt(n) {
+      return '$' + Math.round(n).toLocaleString('es-MX') + ' MXN';
+    }
+    function fmtTime(minMes) {
+      var h = Math.floor(minMes / 60);
+      var m = minMes % 60;
+      if (h === 0) return m + ' min';
+      return h + ' hrs' + (m > 0 ? ' ' + m + ' min' : '');
+    }
 
-  // ── 7. Mobile grid fix for comparison and ROI ──
+    function calc() {
+      var leadsDia = parseFloat(sLeads.value)  || 0;
+      var ticket   = parseFloat(sTicket.value) || 0;
+
+      // Actualizar labels de sliders
+      document.getElementById('roi2-v-leads').textContent  = Math.round(leadsDia);
+      document.getElementById('roi2-v-ticket').textContent = '$' + Math.round(ticket).toLocaleString('es-MX') + ' MXN';
+
+      var leadsMes = leadsDia * 30;
+
+      // ── Sin Frace ──
+      var citasSin     = leadsMes * CIERRE_SIN;            // pacientes que agendan (2%)
+      var ausenciasSin = Math.round(citasSin * NOSHOW_SIN);  // de esas, las que no llegan (15%)
+      var ingNetoSin   = (citasSin - ausenciasSin) * ticket; // ingreso real cobrado
+      var perdAusSin   = ausenciasSin * ticket;             // dinero perdido en ausencias
+
+      // ── Con Frace ──
+      var citasCon     = leadsMes * CIERRE_CON;            // pacientes que agendan (7%)
+      var ausenciasCon = Math.round(citasCon * NOSHOW_CON);  // de esas, las que no llegan (6%)
+      var ingNetoCon   = (citasCon - ausenciasCon) * ticket; // ingreso real cobrado
+
+      // ── Beneficio mensual extra con IA (diferencia neta) ──
+      var extraMes = ingNetoCon - ingNetoSin;
+
+      // ── Días para recuperar la inversión ──
+      // extraMes / 30 = beneficio diario extra; plan_cost / beneficio_diario = días
+      var diasROI = extraMes > 0 ? Math.ceil(PLAN_COST / (extraMes / 30)) : 0;
+
+      // ── Tiempo de gestión manual (mismo volumen de pacientes, independiente del modo) ──
+      var minMes = Math.round(leadsDia * MIN_PAC * 30);
+
+      // ─── Caja de ingreso (siempre visible) ───
+      var incVal = active ? ingNetoCon : ingNetoSin;
+      document.getElementById('roi2-num-income').textContent = fmt(incVal);
+      document.getElementById('roi2-sub-income').textContent = active
+        ? 'Con 7% de cierre · 6% de ausencias'
+        : 'Con 2% de cierre · 15% de ausencias';
+      var incBox = document.getElementById('roi2-box-income');
+      var incNum = document.getElementById('roi2-num-income');
+      if (active) {
+        incBox.className = 'roi2-box income-success';
+        incNum.className = 'roi2-num succ-col';
+      } else {
+        incBox.className = 'roi2-box income-pain';
+        incNum.className = 'roi2-num pain-col';
+      }
+
+      // ─── Cajas de dolor ───
+      document.getElementById('roi2-num-aus').textContent  = '−' + fmt(perdAusSin);
+      document.getElementById('roi2-num-tsin').textContent = fmtTime(minMes);
+
+      // ─── Cajas de éxito ───
+      document.getElementById('roi2-num-extra').textContent = '+' + fmt(extraMes);
+      document.getElementById('roi2-num-roi').textContent   = diasROI > 0
+        ? diasROI + (diasROI === 1 ? ' día' : ' días') : '< 1 día';
+      document.getElementById('roi2-num-tcon').textContent  = fmtTime(minMes);
+
+      // ─── Mostrar / ocultar cajas ───
+      ['roi2-box-aus', 'roi2-box-tsin'].forEach(function (id) {
+        document.getElementById(id).style.display = active ? 'none' : 'block';
+      });
+      ['roi2-box-extra', 'roi2-box-roi', 'roi2-box-tcon'].forEach(function (id) {
+        document.getElementById(id).style.display = active ? 'block' : 'none';
+      });
+
+      // ─── Toggle visual (track + thumb) ───
+      var track = document.getElementById('roi2-track');
+      var thumb = document.getElementById('roi2-thumb');
+      if (active) {
+        track.style.background = 'rgba(34,211,238,0.25)';
+        track.style.border     = '1px solid rgba(34,211,238,0.5)';
+        thumb.style.left       = '31px';
+        thumb.style.background = 'var(--cyan)';
+      } else {
+        track.style.background = 'rgba(239,68,68,0.3)';
+        track.style.border     = '1px solid rgba(239,68,68,0.5)';
+        thumb.style.left       = '5px';
+        thumb.style.background = '#F87171';
+      }
+
+      // ─── Labels del toggle ───
+      document.getElementById('roi2-lbl-sin').className = active ? 'roi2-lbl' : 'roi2-lbl pain';
+      document.getElementById('roi2-lbl-con').className = active ? 'roi2-lbl success' : 'roi2-lbl';
+
+      // ─── Gatillo visual ───
+      var vis    = document.getElementById('roi2-visual');
+      var icon   = document.getElementById('roi2-vis-icon');
+      var vtitle = document.getElementById('roi2-vis-title');
+      var vdesc  = document.getElementById('roi2-vis-desc');
+      if (active) {
+        vis.className  = 'roi2-visual success';
+        icon.textContent   = '😎💰';
+        vtitle.textContent = 'Agenda llena, sin estrés';
+        vdesc.textContent  = 'Más pacientes, menos ausencias y tiempo libre para ti.';
+      } else {
+        vis.className  = 'roi2-visual pain';
+        icon.textContent   = '😫📉';
+        vtitle.textContent = 'Atrapado en llamadas y mensajes...';
+        vdesc.textContent  = 'Menos citas, más ausencias y tiempo perdido en gestión manual.';
+      }
+
+      // ─── Color de sliders y valores ───
+      var rCls = active ? 'roi2-range' : 'roi2-range pain';
+      var vCls = active ? 'roi2-ctrl-val' : 'roi2-ctrl-val pain';
+      sLeads.className  = rCls;
+      sTicket.className = rCls;
+      document.getElementById('roi2-v-leads').className  = vCls;
+      document.getElementById('roi2-v-ticket').className = vCls;
+    }
+
+    toggle.addEventListener('change', function () { active = this.checked; calc(); });
+    sLeads.addEventListener('input', calc);
+    sTicket.addEventListener('input', calc);
+    calc();
+  }());
+
+  // ── 7. Mobile grid fix for comparison section ──
   function fixGrids() {
     var w = window.innerWidth;
     var splitGrid = document.getElementById('split-grid');
-    var roiGrid = document.getElementById('roi-grid');
     if (splitGrid) splitGrid.style.gridTemplateColumns = w < 640 ? '1fr' : '1fr 1fr';
-    if (roiGrid) roiGrid.style.gridTemplateColumns = w < 640 ? '1fr' : '1fr 1fr';
   }
   fixGrids();
   window.addEventListener('resize', fixGrids);
@@ -1796,6 +2025,27 @@
       el.classList.add('visible');
     });
   }
+})();
+</script>
+
+<!-- Urgency counter cookie -->
+<script>
+(function() {
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function setCookie(name, value, days) {
+    var exp = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + value + '; expires=' + exp + '; path=/';
+  }
+  var cupos = getCookie('cupos_disponibles');
+  if (!cupos) {
+    cupos = String(Math.floor(Math.random() * 3) + 3); // 3, 4 or 5
+    setCookie('cupos_disponibles', cupos, 7);
+  }
+  var el = document.getElementById('cupos-num');
+  if (el) el.textContent = cupos;
 })();
 </script>
 
