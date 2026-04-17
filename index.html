@@ -749,7 +749,7 @@
           Automatiza la atención de pacientes en WhatsApp, reduce las ausencias hasta 60% y agenda citas en automático — sin cambiar tu número ni contratar más personal.
         </p>
 
-        <div class="cta-pair">
+        <div class="cta-pair" style="justify-content:flex-start; gap:16px;">
           <a href="https://calendly.com/fracesolutions/reunion" target="_blank" rel="noopener" class="btn btn-green btn-green-lg">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Agendar demo gratuita
@@ -1902,7 +1902,7 @@
 
     // Make hero elements visible before animating (prevents stuck state)
     var heroEls = ['#hero .hero-badge', '#hero .hero-h1', '#hero .hero-sub',
-                   '#hero .btn-green', '#hero .btn-ghost', '#hero .hero-trust',
+                   '#hero .btn-green', '#hero .btn-wa', '#hero .hero-trust',
                    '#hero .stat-card'];
     heroEls.forEach(function(sel) {
       document.querySelectorAll(sel).forEach(function(el) { el.style.opacity = '1'; });
@@ -1911,7 +1911,7 @@
     gsap.from('#hero .hero-badge', { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out', delay: 0.05 });
     gsap.from('#hero .hero-h1',    { opacity: 0, y: 28, duration: 0.7, ease: 'power3.out', delay: 0.15 });
     gsap.from('#hero .hero-sub',   { opacity: 0, y: 18, duration: 0.6, ease: 'power2.out', delay: 0.30 });
-    gsap.from(['#hero .btn-green', '#hero .btn-ghost'], { opacity: 0, y: 14, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.42 });
+    gsap.from(['#hero .btn-green', '#hero .btn-wa'], { opacity: 0, y: 14, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.42 });
     gsap.from('#hero .hero-trust', { opacity: 0, duration: 0.5, ease: 'power2.out', delay: 0.58 });
     gsap.from('#hero .stat-card',  { opacity: 0, y: 20, stagger: 0.1, duration: 0.5, ease: 'power2.out', delay: 0.35 });
   });
